@@ -1,8 +1,12 @@
+export interface BaseMicroResponse {
+  prop: MicroCommand;
+  client: string;
+}
 export interface WebMicroInfo {
   totalLEDs: number;
   segments: WebMicroSegment[];
 }
-export interface ControllerMicroInfo {
+export interface MicroInfoResponse extends BaseMicroResponse {
   totalLEDs: number;
   segments: ControllerMicroSegment[];
 }
@@ -15,8 +19,15 @@ export enum MicroEffect {
   ColorWaves,
   BlendWave
 }
-export enum MicroCommands {
-  
+export enum MicroCommand {
+  Brightness,
+  Effect,
+  Info,
+  Segment
+}
+export enum MicroMethod {
+  Get,
+  Set
 }
 
 export interface WebMicroSegment {
