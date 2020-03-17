@@ -1,5 +1,5 @@
 import {WebMicroInfo, ControllerMicroSegment, WebMicroSegment,
-  } from '../types/MicroTypes';
+  } from './MicroTypes';
 import {MicroEffect, WebEffect} from './MicroCommands';
 class SharedMicro {
   constructor(microInfo: WebMicroInfo) {
