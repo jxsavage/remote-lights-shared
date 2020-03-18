@@ -8,9 +8,12 @@ export enum MicroEffect {
 }
 export enum MicroCommand {
   Brightness,
-  Effect,
+  Segment,
   Info,
-  Segment
+  
+}
+export enum SegmentCommand {
+  Effect
 }
 export enum MicroMethod {
   Get,

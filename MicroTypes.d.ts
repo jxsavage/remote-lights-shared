@@ -1,3 +1,5 @@
+import { WebEffect } from "./MicroCommands";
+
 export interface BaseMicroResponse {
   prop: MicroCommand;
   client: string;
@@ -27,4 +29,16 @@ export interface ControllerMicroSegment {
   offset: number;
   numLEDs: number;
   effect: MicroEffect;
+}
+export interface BaseToServerEmit {
+  socketId: string,
+  microId: string
+}
+export interface BrightnessToServerEmit
+extends BaseToServerEmit {
+  brightness: number;
+}
+export interface SetSegmentEffectQuery {
+  effect: WebEffect,
+  segment: number,
 }
