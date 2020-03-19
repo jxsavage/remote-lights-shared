@@ -25,6 +25,9 @@ export class SharedMicroState {
   setSegmentEffect = (effect: WebEffect, segment: number) => {
     this.microState.segments[segment].effect = effect;
   }
+  getState = () => {
+    return this.microState;
+  }
 }
 export class Convert {
   static microSegmentToWeb(
