@@ -48,9 +48,11 @@ export class Convert {
         .microSegmentToWeb(microSeg));
   }
   static microInfoToWeb(
+    id: string,
     {totalLEDs, segments, brightness}: MicroInfoResponse
   ){
     const webInfo: WebMicroInfo = {
+      id,
       totalLEDs,
       segments: Convert.microSegmentsArrToWeb(segments),
       brightness,
