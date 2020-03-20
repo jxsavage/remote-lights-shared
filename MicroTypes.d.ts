@@ -9,6 +9,7 @@ export interface MicroBrightnessResponse
   value: number;
 }
 export interface WebMicroInfo {
+  id: string;
   totalLEDs: number;
   brightness: number;
   segments: WebMicroSegment[];
