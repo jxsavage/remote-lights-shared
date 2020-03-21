@@ -31,15 +31,28 @@ export interface ControllerMicroSegment {
   numLEDs: number;
   effect: MicroEffect;
 }
+export interface BaseBody {
+  microId: string
+}
 export interface BaseToServerEmit {
   socketId: string,
-  microId: string
+  body: BaseBody
+}
+export interface BrightnessBody
+extends BaseBody {
+  brightness: number;
 }
 export interface BrightnessToServerEmit
 extends BaseToServerEmit {
-  brightness: number;
+  body: BrightnessBody;
 }
-export interface SetSegmentEffectQuery {
+export interface InfoToServerEmitBody
+extends BaseToServerEmitBody {
+  body: WebMicroInfo
+}
+export interface SetSegmentEffectQuery
+extends BaseToServerEmitBody {
   effect: WebEffect,
   segment: number,
 }
+

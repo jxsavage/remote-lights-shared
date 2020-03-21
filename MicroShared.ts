@@ -28,6 +28,9 @@ export class SharedMicroState {
   getState = () => {
     return this.microState;
   }
+  getId = () => {
+    return this.microState.id;
+  }
 }
 export class Convert {
   static microSegmentToWeb(
@@ -63,7 +66,7 @@ export class Convert {
     socketId: string, brightness: number,
     microId: string
   ): BrightnessToServerEmit {
-    return {microId, socketId, brightness};
+    return { socketId, body:{microId, brightness} };
   }
   static webEffectToMicro(webEffect: WebEffect) {
     const webEffectArr = Object.keys(WebEffect) as WebEffect[];
