@@ -1,5 +1,10 @@
-import { WebEffect } from "./MicroCommands";
-
+import { WebEffect, Direction } from "./MicroCommands";
+export interface MergeSegments {
+  (index: number, direction: Direction): void;
+}
+export interface SplitSegment {
+  (index: number, direction: Direction, effect: WebEffect): void;
+}
 export interface BaseMicroResponse {
   prop: MicroCommand;
   client: string;

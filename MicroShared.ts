@@ -1,7 +1,7 @@
 import {WebMicroInfo, ControllerMicroSegment,
   WebMicroSegment, BrightnessToServerEmit, MicroInfoResponse,
   } from './MicroTypes';
-import {MicroEffect, WebEffect} from './MicroCommands';
+import {MicroEffect, WebEffect, Direction} from './MicroCommands';
 export class SharedMicroState {
   microState: WebMicroInfo;
   segmentBoundaries: number[];
@@ -51,32 +51,117 @@ export class SharedMicroState {
   setSegmentBoundaries = (segmentBoundaries: number[]) => {
     this.segmentBoundaries = segmentBoundaries;
   }
-  resizeSegmentsFromBoundaries = (boundaries: number[]) => {
-    const {
-      getSegmentCount, resizeSegment,
-      setSegmentBoundaries
-    } = this;
-    const iterations = getSegmentCount();
-    for(let i = 0; i < iterations; i++){
-      const [offset, segmentEnd] = boundaries.slice(i, i+2);
-      const numLEDs = segmentEnd - offset;
-      resizeSegment(i, offset, numLEDs);
+  resizeSegmentsFromBoundaries = (segmentBoundaries: number[]) => {
+    const {getSegment, createSegment} = this;
+    const segments = segmentBoundaries
+      .reduce((segments, boundary, i, boundaries) => {
+      const start = i===0;
+      const end = (i+1)===boundaries.length;
+      if(start) {
+        const {effect} = getSegment(i);
+        segments
+          .push(createSegment(0, boundary, effect));
+      }
+      if(!start && !end) {
+
+      }
+      if(end) {
+        const {effect} = getSegment(i+1);
+        const totalLEDs = this.getTotalLEDs();
+        const numLEDs = totalLEDs - boundary;
+        segments
+          .push(createSegment(boundary, numLEDs, effect));
+      }
+      return segments;
+    }, [] as WebMicroSegment[]);
+    return {
+      segments,
+      segmentBoundaries
     }
-    setSegmentBoundaries(boundaries);
   }
-  calculateSegmentBoundaries = () => {
-    const boundaries: number[] = this.getSegments()
+  calculateSegmentBoundaries = (segments?: WebMicroSegment[]) => {
+    const {getSegments} = this;
+    const currentSegments = segments? segments : getSegments();
+    const boundaries: number[] = currentSegments
       .reduce((boundaries, segment, index) => {
+        const notEnd = !(index === (currentSegments.length - 1));
         if (index === 0) {
-          boundaries.push(0);
           boundaries.push(segment.numLEDs);
-        }else {
+        } else if (notEnd) {
           boundaries
             .push(segment.offset + segment.numLEDs);
         }
         return boundaries;
       }, [] as number[]);
     return boundaries;
+  }
+  splitSegment = 
+  (index: number, direction: Direction, newEffect: WebEffect, segs?: WebMicroSegment[]) => {
+    const { getSegments, calculateSegmentBoundaries,
+      createSegment} = this;
+    const currentSegments = segs? segs : getSegments();
+    const segments = 
+    currentSegments.reduce((newArr, segment, i) => {
+      const shouldSplit = index === i;
+      if(shouldSplit) {
+        const {effect, numLEDs, offset} = segment;
+        const leftLen = Math.trunc(numLEDs / 2);
+        const rightLen = numLEDs - leftLen;
+        const rightOffset = offset + leftLen;
+        const splitLeft = direction === Direction.Left;
+        const leftEffect = splitLeft ? newEffect : effect;
+        const rightEffect = splitLeft ? effect : newEffect;
+        const newLeft = createSegment(offset, leftLen, leftEffect);
+        const newRight = createSegment(rightOffset, rightLen, rightEffect);
+        newArr.push(newLeft);
+        newArr.push(newRight);
+      } else {
+        newArr.push(segment);
+      }
+      return newArr;
+    }, [] as WebMicroSegment[]);
+    const segmentBoundaries = calculateSegmentBoundaries(segments);
+    return {
+      segments,
+      segmentBoundaries
+    }
+  }
+  mergeSegments = (index: number, direction: Direction, segs?: WebMicroSegment[]) => {
+    const { getSegments, createSegment, getTotalLEDs,
+    calculateSegmentBoundaries } = this;
+    const segments = segs? segs.slice() : getSegments().slice();
+    const segment = segments[index];
+    const isLeftMerge = direction === Direction.Left;
+    const mergeIndex = isLeftMerge ? index-1 : index+1;
+    const segToMerge = segments[mergeIndex];
+    let newSegment: WebMicroSegment;
+    if (segToMerge) {
+      const offset = isLeftMerge ? segToMerge.offset : segment.offset;
+      const numLEDs = segment.numLEDs + segToMerge.numLEDs;
+      newSegment = createSegment(offset, numLEDs, segment.effect);
+    } else {
+      const atStart = index === 0;
+      const numLEDs = atStart ?
+        segment.offset + segment.numLEDs :
+        getTotalLEDs() - segment.offset;
+      const offset = atStart ? 0 : segment.offset;
+      newSegment = createSegment(offset, numLEDs, segment.effect);
+    }
+    const spliceIndex = isLeftMerge ? index-1 : index;
+    segments.splice(spliceIndex,2,newSegment);
+    const segmentBoundaries = calculateSegmentBoundaries(segments);
+    return {
+      segments,
+      segmentBoundaries
+    }
+  }
+  private createSegment = 
+  (offset: number, numLEDs: number, effect: WebEffect) => {
+    return {
+      offset,
+      effect,
+      numLEDs
+    }
   }
 }
 export class Convert {

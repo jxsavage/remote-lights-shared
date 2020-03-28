@@ -13,9 +13,15 @@ export enum MicroCommand {
   
 }
 export enum SegmentCommand {
-  Effect
+  Effect,
+  Merge,
+  Split
 }
 export enum MicroMethod {
   Get,
   Set
+}
+export enum Direction {
+  Left,
+  Right
 }
