@@ -4,10 +4,10 @@ import {WebMicroInfo, ControllerMicroSegment,
 import {MicroEffect, WebEffect, Direction} from './MicroCommands';
 export class SharedMicroState {
   microState: WebMicroInfo;
-  segmentBoundaries: number[];
+  segmentBoundaries!: number[];
   constructor(microInfo: WebMicroInfo) {
     this.microState = microInfo;
-    this.segmentBoundaries = this.calculateSegmentBoundaries();
+    this.calculateSegmentBoundaries();
 
   }
   getSegments = () => {
@@ -19,17 +19,29 @@ export class SharedMicroState {
   setBrightness = (brightness: number) => {
     this.microState.brightness = brightness;
   }
-  setEffect(index: number, effect: WebEffect) {
+  static setBrightness = (brightness: number) => {
+    
+  }
+  setSegmentEffect = (index: number, effect: WebEffect) => {
     this.getSegment(index).effect = effect;
+  }
+  static setSegmentEffect = (index: number, effect: WebEffect, oldSegments: WebMicroSegment[]) => {
+    const {createSegment} = SharedMicroState;
+    const segments = oldSegments.map((segment, i) => {
+      if (index !== i) {
+        return segment;
+      } else {
+        const {offset, numLEDs} = segment;
+        return createSegment(offset,numLEDs,effect);
+      }
+    });
+    return {segments};
   }
   getTotalLEDs = () => {
     return this.microState.totalLEDs;
   }
   getSegmentCount = () => {
     return this.getSegments().length;
-  }
-  setSegmentEffect = (effect: WebEffect, segment: number) => {
-    this.microState.segments[segment].effect = effect;
   }
   getState = () => {
     return this.microState;
@@ -39,6 +51,9 @@ export class SharedMicroState {
   }
   getSegment = (index: number) => {
     return this.getSegments()[index];
+  }
+  setSegments = (segments: WebMicroSegment[]) => {
+    this.microState.segments = segments;
   }
   resizeSegment = (index: number, offset: number, numLEDs: number) => {
     const segment = this.getSegment(index);
@@ -52,13 +67,25 @@ export class SharedMicroState {
     this.segmentBoundaries = segmentBoundaries;
   }
   resizeSegmentsFromBoundaries = (segmentBoundaries: number[]) => {
-    const {getSegment, createSegment} = this;
+    const {resizeSegmentsFromBoundaries} = SharedMicroState;
+    const {getSegments, getTotalLEDs,
+      setSegmentBoundaries, setSegments} = this;
+    const {segments} = 
+      resizeSegmentsFromBoundaries(
+        segmentBoundaries, getSegments(), getTotalLEDs());
+    setSegmentBoundaries(segmentBoundaries);
+    setSegments(segments);
+  }
+  static resizeSegmentsFromBoundaries = (
+    segmentBoundaries: number[], oldSegments: WebMicroSegment[], totalLEDs: number
+  ) => {
+    const {createSegment} = SharedMicroState;
     const segments = segmentBoundaries
       .reduce((segments, boundary, i, boundaries) => {
       const start = i===0;
       const end = (i+1)===boundaries.length;
       if(start) {
-        const {effect} = getSegment(i);
+        const {effect} = oldSegments[i];
         segments
           .push(createSegment(0, boundary, effect));
       }
@@ -66,8 +93,7 @@ export class SharedMicroState {
 
       }
       if(end) {
-        const {effect} = getSegment(i+1);
-        const totalLEDs = this.getTotalLEDs();
+        const {effect} = oldSegments[i+1];
         const numLEDs = totalLEDs - boundary;
         segments
           .push(createSegment(boundary, numLEDs, effect));
@@ -79,12 +105,19 @@ export class SharedMicroState {
       segmentBoundaries
     }
   }
-  calculateSegmentBoundaries = (segments?: WebMicroSegment[]) => {
-    const {getSegments} = this;
-    const currentSegments = segments? segments : getSegments();
-    const boundaries: number[] = currentSegments
+  calculateSegmentBoundaries = () => {
+    const {getSegments, setSegmentBoundaries} = this;
+    const {calculateSegmentBoundaries} = SharedMicroState;
+    setSegmentBoundaries(
+      calculateSegmentBoundaries(
+        getSegments()
+      )
+    );
+  }
+  static calculateSegmentBoundaries = (segments: WebMicroSegment[]) => {
+    const boundaries: number[] = segments
       .reduce((boundaries, segment, index) => {
-        const notEnd = !(index === (currentSegments.length - 1));
+        const notEnd = !(index === (segments.length - 1));
         if (index === 0) {
           boundaries.push(segment.numLEDs);
         } else if (notEnd) {
@@ -95,13 +128,19 @@ export class SharedMicroState {
       }, [] as number[]);
     return boundaries;
   }
-  splitSegment = 
-  (index: number, direction: Direction, newEffect: WebEffect, segs?: WebMicroSegment[]) => {
-    const { getSegments, calculateSegmentBoundaries,
-      createSegment} = this;
-    const currentSegments = segs? segs : getSegments();
+  splitSegment = (index: number, direction: Direction, newEffect: WebEffect) => {
+    const { getSegments, setSegments, setSegmentBoundaries } = this;
+    const {splitSegment} = SharedMicroState;
+    const {segmentBoundaries, segments} = 
+      splitSegment(index, direction, newEffect, getSegments());
+    setSegments(segments);
+    setSegmentBoundaries(segmentBoundaries);
+  }
+  static splitSegment = 
+  (index: number, direction: Direction, newEffect: WebEffect, oldSegments: WebMicroSegment[]) => {
+    const {createSegment, calculateSegmentBoundaries} = SharedMicroState;
     const segments = 
-    currentSegments.reduce((newArr, segment, i) => {
+    oldSegments.reduce((newArr, segment, i) => {
       const shouldSplit = index === i;
       if(shouldSplit) {
         const {effect, numLEDs, offset} = segment;
@@ -126,14 +165,24 @@ export class SharedMicroState {
       segmentBoundaries
     }
   }
-  mergeSegments = (index: number, direction: Direction, segs?: WebMicroSegment[]) => {
-    const { getSegments, createSegment, getTotalLEDs,
-    calculateSegmentBoundaries } = this;
-    const segments = segs? segs.slice() : getSegments().slice();
-    const segment = segments[index];
+  mergeSegments = (index: number, direction: Direction) => {
+    const { getSegments, getTotalLEDs,
+      setSegments, setSegmentBoundaries } = this;
+    const { mergeSegments } = SharedMicroState;
+    const {segments, segmentBoundaries} = 
+      mergeSegments(index, direction, getSegments(), getTotalLEDs());
+    setSegments(segments);
+    setSegmentBoundaries(segmentBoundaries);
+  }
+  static mergeSegments = (
+    index: number, direction: Direction,
+    oldSegments: WebMicroSegment[], totalLEDs: number
+  ) => {
+    const {createSegment, calculateSegmentBoundaries} = SharedMicroState;
+    const segment = oldSegments[index];
     const isLeftMerge = direction === Direction.Left;
     const mergeIndex = isLeftMerge ? index-1 : index+1;
-    const segToMerge = segments[mergeIndex];
+    const segToMerge = oldSegments[mergeIndex];
     let newSegment: WebMicroSegment;
     if (segToMerge) {
       const offset = isLeftMerge ? segToMerge.offset : segment.offset;
@@ -143,11 +192,12 @@ export class SharedMicroState {
       const atStart = index === 0;
       const numLEDs = atStart ?
         segment.offset + segment.numLEDs :
-        getTotalLEDs() - segment.offset;
+        totalLEDs - segment.offset;
       const offset = atStart ? 0 : segment.offset;
       newSegment = createSegment(offset, numLEDs, segment.effect);
     }
     const spliceIndex = isLeftMerge ? index-1 : index;
+    const segments = oldSegments.slice();
     segments.splice(spliceIndex,2,newSegment);
     const segmentBoundaries = calculateSegmentBoundaries(segments);
     return {
@@ -155,7 +205,7 @@ export class SharedMicroState {
       segmentBoundaries
     }
   }
-  private createSegment = 
+  private static createSegment = 
   (offset: number, numLEDs: number, effect: WebEffect) => {
     return {
       offset,
@@ -186,11 +236,16 @@ export class Convert {
     id: string,
     {totalLEDs, segments, brightness}: MicroInfoResponse
   ){
+    const {calculateSegmentBoundaries} = SharedMicroState;
+    const {microSegmentsArrToWeb} = Convert;
+    const webSegments = microSegmentsArrToWeb(segments);
+    const segmentBoundaries = calculateSegmentBoundaries(webSegments);
     const webInfo: WebMicroInfo = {
-      id,
+      id, 
       totalLEDs,
-      segments: Convert.microSegmentsArrToWeb(segments),
       brightness,
+      segmentBoundaries,
+      segments: webSegments
     }
     return webInfo;
   }
