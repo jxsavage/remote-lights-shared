@@ -1,41 +1,42 @@
+// eslint-disable-next-line import/no-cycle
 import {
-  ByMicroId, SplitSegmentStatePayload,
-} from 'Shared/reducers/remoteLights';
-import { LightClientSharedState as ClientState } from './MicroTypes';
-import { WebEffect, Direction } from './MicroCommands';
+  StateOperations, SetBrightnessStatePayload, SetSegmentEffectStatePayload,
+  ResizeSegmentsFromBoundariesStatePayload, SplitSegmentStatePayload, MergeSegmentsStatePayload,
+} from './reducers/remoteLights';
 import { SharedMicroState as MicroState } from './MicroShared';
 
+export default class RemoteLightsStateOperations {
+  static setBrightness:
+  StateOperations<SetBrightnessStatePayload> = (
+    { microId, payload: { brightness } }, byMicroId,
+  ) => {
+    const micro = { ...byMicroId[microId], brightness };
+    const micros = { ...byMicroId, [microId]: micro };
+    return { byMicroId: micros };
+  };
 
-export default class LightClientShared {
-  clientState: ClientState[];
-
-  constructor(state: ClientState[]) {
-    this.clientState = state;
-  }
-
-  static setSegmentEffect = (
-    microId: string, segmentIndex: number,
-    effect: WebEffect, byMicroId: ByMicroId,
-  ): {byMicroId: ByMicroId} => {
+  static setSegmentEffect:
+  StateOperations<SetSegmentEffectStatePayload> = (
+    { microId, payload: { segmentIndex, effect } }, byMicroId,
+  ) => {
     const { setSegmentEffect } = MicroState;
     const oldMicro = byMicroId[microId];
     const micro = {
       ...oldMicro,
-      ...setSegmentEffect(segmentIndex, effect, oldMicro.segments),
+      ...setSegmentEffect(
+        segmentIndex, effect, oldMicro.segments,
+      ),
     };
-
     const micros = {
-      ...byMicroId,
-      ...{ [microId]: micro },
+      ...byMicroId, [microId]: micro,
     };
-
     return { byMicroId: micros };
   };
 
-  static resizeSegmentsFromBoundaries = (
-    microId: string, segmentBoundaries: number[],
-    byMicroId: ByMicroId,
-  ): {byMicroId: ByMicroId} => {
+  static resizeSegmentsFromBoundaries:
+  StateOperations<ResizeSegmentsFromBoundariesStatePayload> = (
+    { microId, payload: { segmentBoundaries } }, byMicroId,
+  ) => {
     const { resizeSegmentsFromBoundaries } = MicroState;
     const oldMicro = byMicroId[microId];
     const { totalLEDs, segments } = oldMicro;
@@ -49,13 +50,13 @@ export default class LightClientShared {
     return { byMicroId: micros };
   };
 
-  static splitSegment = (
-    { microId, payload: {
-      segmentIndex,
-      direction, newEffect,
-    } }: SplitSegmentStatePayload,
-    byMicroId: ByMicroId,
-  ): {byMicroId: ByMicroId} => {
+  static splitSegment:
+  StateOperations<SplitSegmentStatePayload> = (
+    {
+      microId, payload: { segmentIndex, direction, newEffect },
+    },
+    byMicroId,
+  ) => {
     const { splitSegment } = MicroState;
     const oldMicro = byMicroId[microId];
     const { segments } = oldMicro;
@@ -69,10 +70,10 @@ export default class LightClientShared {
     return { byMicroId: micros };
   };
 
-  static mergeSegments = (
-    microId: string, segmentIndex: number,
-    direction: Direction, byMicroId: ByMicroId,
-  ): {byMicroId: ByMicroId} => {
+  static mergeSegments:
+  StateOperations<MergeSegmentsStatePayload> = (
+    { microId, payload: { segmentIndex, direction } }, byMicroId,
+  ) => {
     const { mergeSegments } = MicroState;
     const oldMicro = byMicroId[microId];
     const { segments, totalLEDs } = oldMicro;

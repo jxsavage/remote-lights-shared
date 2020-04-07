@@ -1,4 +1,5 @@
-import { WebEffect, Direction } from "./MicroCommands";
+import { WebEffect, Direction } from './MicroCommands';
+
 export interface LightClientSharedState {
   clientId: string;
   micros: WebMicroInfo[];
@@ -25,7 +26,7 @@ export interface WebMicroInfo {
   segmentBoundaries: number[];
 }
 export interface ReactMicroInfoState
-extends WebMicroInfo {
+  extends WebMicroInfo {
   segmentBoundaries: number[];
 }
 export interface MicroInfoResponse
@@ -46,27 +47,26 @@ export interface ControllerMicroSegment {
   effect: MicroEffect;
 }
 export interface BaseBody {
-  microId: string
+  microId: string;
 }
 export interface BaseToServerEmit {
-  socketId: string,
-  body: BaseBody
+  socketId: string;
+  body: BaseBody;
 }
 export interface BrightnessBody
-extends BaseBody {
+  extends BaseBody {
   brightness: number;
 }
 export interface BrightnessToServerEmit
-extends BaseToServerEmit {
+  extends BaseToServerEmit {
   body: BrightnessBody;
 }
 export interface InfoToServerEmitBody
-extends BaseToServerEmitBody {
-  body: WebMicroInfo
+  extends BaseToServerEmitBody {
+  body: WebMicroInfo;
 }
 export interface SetSegmentEffectQuery
-extends BaseToServerEmitBody {
-  effect: WebEffect,
-  segment: number,
+  extends BaseToServerEmitBody {
+  effect: WebEffect;
+  segment: number;
 }
-
