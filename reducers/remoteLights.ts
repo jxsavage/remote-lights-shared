@@ -1,7 +1,5 @@
 import { WebMicroInfo } from 'Shared/MicroTypes';
 // eslint-disable-next-line import/no-cycle
-import RemoteLightsStateOperations from 'Shared/StateOperations';
-// eslint-disable-next-line import/no-cycle
 import {
   SplitSegmentPayload, MergeSegmentsPayload, SetBrightnessPayload,
   ResizeSegmentsFromBoundariesPayload, MicroPayloads, SetSegmentEffectPayload,
