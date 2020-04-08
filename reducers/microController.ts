@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
-import { Direction, WebEffect } from 'Shared/MicroCommands';
-import { WebMicroInfo, WebMicroSegment } from 'Shared/MicroTypes';
+import { Direction, WebEffect } from '../../Shared/MicroCommands';
+import { WebMicroInfo, WebMicroSegment } from '../../Shared/MicroTypes';
 // eslint-disable-next-line import/no-cycle
-import { SharedMicroState } from 'Shared/MicroShared';
+import { SharedMicroState } from '../../Shared/MicroShared';
 // eslint-disable-next-line import/no-cycle
 import { ActionCreator } from './actions';
 
