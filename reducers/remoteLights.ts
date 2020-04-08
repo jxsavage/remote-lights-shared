@@ -12,6 +12,8 @@ import { ActionCreator } from './actions';
 
 enum StateOnlyAction {
   RESET = 'RESET_STATE',
+  ADD_MICROS = 'ADD_MICROS',
+  REMOVE_MICROS = 'REMOVE_MICROS'
 }
 enum StateMicroAction {
   SPLIT = 'SPLIT_SEGMENT',
@@ -35,7 +37,27 @@ type BaseStatePayload<P extends MicroPayloads | ResetPayload> = {
   payload: P;
 };
 /*
-* Reset State Action Specs
+* Remove Micros Spec
+*/
+export interface RemoveMicrosPayload {
+  microIds: string[];
+}
+export type RemoveMicrosStateAction = {
+  type: StateOnlyAction.REMOVE_MICROS;
+  payload: RemoveMicrosPayload;
+}
+/*
+* Add Micros Spec
+*/
+export interface AddMicrosPayload {
+  micros: WebMicroInfo[];
+}
+export type AddMicrosStateAction = {
+  type: StateOnlyAction.ADD_MICROS;
+  payload: AddMicrosPayload;
+}
+/*
+* Reset State Specs
 */
 export interface ResetPayload {
   state: RemoteLightsState;
@@ -70,7 +92,9 @@ export type StateMicroPayloads =
   SetSegmentEffectStatePayload |
   ResizeSegmentsFromBoundariesStatePayload;
 export type StatePayloads =
+AddMicrosPayload |
 ResetStatePayload |
+RemoveMicrosPayload |
 StateMicroPayloads;
 
 
@@ -102,6 +126,8 @@ export type StateMicroActions =
   ResizeSegmentsFromBoundariesStateAction;
 export type StateActions =
 ResetStateAction |
+AddMicrosStateAction |
+RemoveMicrosStateAction |
 StateMicroActions;
 
 interface StateReducers<T extends StateActions> {
@@ -120,7 +146,7 @@ const {
   MERGE, SPLIT, RESET_MICRO, SET_EFFECT, SET_BRIGHTNESS, RESIZE_FROM_BOUNDARIES,
 } = StateMicroAction;
 const {
-  RESET,
+  RESET, ADD_MICROS, REMOVE_MICROS
 } = StateOnlyAction;
 /*
 * Segment Actions
@@ -129,6 +155,14 @@ export const resetState:
 ActionCreator<
 ResetStatePayload, ResetStateAction
 > = (payload) => ({ type: RESET, payload });
+export const addMicros:
+ActionCreator<
+AddMicrosPayload, AddMicrosStateAction
+> = (payload) => ({ type: ADD_MICROS, payload });
+export const removeMicros:
+ActionCreator<
+RemoveMicrosPayload, RemoveMicrosStateAction
+> = (payload) => ({ type: REMOVE_MICROS, payload });
 export const splitSegment:
 ActionCreator<
 SplitSegmentStatePayload, SplitSegmentStateAction
@@ -150,40 +184,8 @@ ActionCreator<
 ResizeSegmentsFromBoundariesStatePayload, ResizeSegmentsFromBoundariesStateAction
 > = (payload) => ({ type: RESIZE_FROM_BOUNDARIES, payload });
 /*
-* Reducers
-*/
-// const splitSegmentReducer: StateReducers<SplitSegmentAction> = (state, { payload }) => ({
-//   ...state,
-//   ...RemoteLightsStateOperations.splitSegment(payload, state.byMicroId),
-// });
-// const mergeSegmentsReducer: StateReducers<MergeSegmentsAction> = (state, { payload }) => ({
-//   ...state,
-//   ...RemoteLightsStateOperations.mergeSegments(payload, state.byMicroId),
-// });
-// const setSegmentEffectReducer: StateReducers<SetSegmentEffectAction> = (state, { payload }) => ({
-//   ...state,
-//   ...RemoteLightsStateOperations.setSegmentEffect(payload, state.byMicroId),
-// });
-// const setBrightnessReducer: StateReducers<SetBrightnessAction> = (state, { payload }) => ({
-//   ...state,
-//   ...RemoteLightsStateOperations.setBrightness(payload, state.byMicroId),
-// });
-// const resizeSegmentsFromBoundariesReducer:
-// StateReducers<ResizeSegmentsFromBoundariesAction> = (state, { payload }) => ({
-//   ...state,
-//   ...RemoteLightsStateOperations.resizeSegmentsFromBoundaries(payload, state.byMicroId),
-// });
-/*
 * Segment Reducer
 */
-const StateActionToMicroAction = {
-  [SPLIT]: splitMicroSegment,
-  [MERGE]: mergeMicroSegments,
-  [RESET_MICRO]: resetMicroState,
-  [SET_EFFECT]: setMicroSegmentEffect,
-  [SET_BRIGHTNESS]: setMicroBrightness,
-  [RESIZE_FROM_BOUNDARIES]: resizeMicroSegmentsFromBoundaries,
-};
 const convertToMicroAction = (
   stateActionType: StateMicroAction,
 ) => {
@@ -209,7 +211,39 @@ const stateActionToMicro = (
     ),
   },
 });
-
+type StateReducer<T extends StatePayloads> = (state: RemoteLightsState, payload: T) => RemoteLightsState;
+const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, {micros}) => {
+  const allMicroIds = state.allMicroIds.slice();
+  const newByMicroId = micros.reduce((addedState, micro) => {
+    if (!allMicroIds.includes(micro.id)) allMicroIds.push(micro.id);
+    return {
+      ...addedState,
+      [micro.id]: micro,
+    }
+  }, {} as ByMicroId)
+  return {
+    ...state,
+    ...allMicroIds,
+    byMicroId: {
+      ...state.byMicroId,
+      ...newByMicroId
+    }
+  };
+}
+const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, {microIds}) => {
+  const allMicroIds = state.allMicroIds.filter((id) => {
+    return !microIds.includes(id);
+  });
+  const byMicroId = allMicroIds.reduce((newByMicroId, microId) => {
+    newByMicroId[microId] = state.byMicroId[microId];
+    return newByMicroId;
+  }, {} as ByMicroId)
+  return {
+    ...state,
+    ...allMicroIds,
+    ...byMicroId,
+  };
+}
 const remoteLights: StateReducers<StateActions> = (state = initialState, action) => {
   const { byMicroId } = state;
   switch (action.type) {
@@ -245,6 +279,10 @@ const remoteLights: StateReducers<StateActions> = (state = initialState, action)
       };
     case RESET:
       return action.payload.state;
+    case ADD_MICROS:
+      return addMicrosReducer(state, action.payload);
+    case REMOVE_MICROS:
+      return removeMicrosReducer(state, action.payload);
     default:
       return state;
   }
