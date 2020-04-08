@@ -136,12 +136,6 @@ interface StateReducers<T extends StateActions> {
 export interface StateOperations<T extends StatePayloads> {
   (payload: T, byMicroId: ByMicroId): {byMicroId: ByMicroId};
 }
-
-
-const initialState: RemoteLightsState = {
-  allMicroIds: [],
-  byMicroId: {},
-};
 const {
   MERGE, SPLIT, RESET_MICRO, SET_EFFECT, SET_BRIGHTNESS, RESIZE_FROM_BOUNDARIES,
 } = StateMicroAction;
@@ -244,6 +238,10 @@ const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, {microIds
     ...byMicroId,
   };
 }
+export const initialState: RemoteLightsState = {
+  allMicroIds: [],
+  byMicroId: {},
+};
 const remoteLights: StateReducers<StateActions> = (state = initialState, action) => {
   const { byMicroId } = state;
   switch (action.type) {
