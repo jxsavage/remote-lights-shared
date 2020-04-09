@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
-import { Direction, WebEffect } from '../../Shared/MicroCommands';
-import { WebMicroInfo, WebMicroSegment } from '../../Shared/MicroTypes';
-// eslint-disable-next-line import/no-cycle
-import { SharedMicroState } from '../../Shared/MicroShared';
+import { Direction, MicroEffect } from '../MicroCommands';
+import { MicroState, LEDSegment } from '../MicroTypes';
+
 // eslint-disable-next-line import/no-cycle
 import { ActionCreator } from './actions';
 
@@ -15,11 +14,11 @@ enum MicroAction {
   RESIZE_FROM_BOUNDARIES = 'MICRO_RESIZE_SEGMENTS_FROM_BOUNDARIES',
 }
 export interface ResetMicroPayload {
-  micro: WebMicroInfo;
+  micro: MicroState;
 }
 export interface SplitSegmentPayload {
   segmentIndex: number; direction: Direction;
-  newEffect: WebEffect;
+  newEffect: MicroEffect;
 }
 export interface MergeSegmentsPayload {
   segmentIndex: number;
@@ -29,7 +28,7 @@ export interface SetBrightnessPayload {
   brightness: number;
 }
 export interface SetSegmentEffectPayload {
-  segmentIndex: number; effect: WebEffect;
+  segmentIndex: number; effect: MicroEffect;
 }
 export interface ResizeSegmentsFromBoundariesPayload {
   segmentBoundaries: number[];
@@ -96,13 +95,27 @@ ResizeSegmentsFromBoundariesPayload, ResizeSegmentsFromBoundariesAction
 > = (payload) => ({ type: RESIZE_FROM_BOUNDARIES, payload });
 
 interface MicroReducers<P extends MicroPayloads> {
-  (state: WebMicroInfo, payload: P): WebMicroInfo;
+  (state: MicroState, payload: P): MicroState;
 }
-const createSegment = (offset: number, numLEDs: number, effect: WebEffect): WebMicroSegment => ({
+const createSegment = (offset: number, numLEDs: number, effect: MicroEffect): LEDSegment => ({
   offset,
   effect,
   numLEDs,
 });
+const calculateSegmentBoundaries = (segments: LEDSegment[]) => {
+  const boundaries: number[] = segments
+    .reduce((boundaries, segment, index) => {
+      const notEnd = !(index === (segments.length - 1));
+      if (index === 0) {
+        boundaries.push(segment.numLEDs);
+      } else if (notEnd) {
+        boundaries
+          .push(segment.offset + segment.numLEDs);
+      }
+      return boundaries;
+    }, [] as number[]);
+  return boundaries;
+};
 const resizeSegmentsFromBoundariesReducer:
 MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
   state, { segmentBoundaries },
@@ -127,7 +140,7 @@ MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
           .push(createSegment(boundary, numLEDs, effect));
       }
       return segments;
-    }, [] as WebMicroSegment[]);
+    }, [] as LEDSegment[]);
   return {
     ...state,
     segments,
@@ -137,7 +150,6 @@ MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
 const splitSegmentReducer: MicroReducers<SplitSegmentPayload> = (
   state, { newEffect, direction, segmentIndex },
 ) => {
-  const { calculateSegmentBoundaries } = SharedMicroState;
   const segments = state.segments.reduce((newArr, segment, i) => {
     const shouldSplit = segmentIndex === i;
     if (shouldSplit) {
@@ -156,7 +168,7 @@ const splitSegmentReducer: MicroReducers<SplitSegmentPayload> = (
       newArr.push(segment);
     }
     return newArr;
-  }, [] as WebMicroSegment[]);
+  }, [] as LEDSegment[]);
   const segmentBoundaries = calculateSegmentBoundaries(segments);
   return {
     ...state,
@@ -167,12 +179,11 @@ const splitSegmentReducer: MicroReducers<SplitSegmentPayload> = (
 const mergeSegmentsReducer: MicroReducers<MergeSegmentsPayload> = (
   state, { direction, segmentIndex },
 ) => {
-  const { calculateSegmentBoundaries } = SharedMicroState;
   const segment = state.segments[segmentIndex];
   const isLeftMerge = direction === Direction.Left;
   const mergeIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex + 1;
   const segToMerge = state.segments[mergeIndex];
-  let newSegment: WebMicroSegment;
+  let newSegment: LEDSegment;
   if (segToMerge) {
     const offset = isLeftMerge ? segToMerge.offset : segment.offset;
     const numLEDs = segment.numLEDs + segToMerge.numLEDs;
@@ -213,7 +224,7 @@ const setBrightnessReducer: MicroReducers<SetBrightnessPayload> = (
   ...state,
   brightness,
 });
-type MicroReducer = (state: WebMicroInfo, action: MicroActions) => WebMicroInfo;
+type MicroReducer = (state: MicroState, action: MicroActions) => MicroState;
 export const microController: MicroReducer = (state, action) => {
   switch (action.type) {
     case SPLIT:

@@ -1,4 +1,4 @@
-import { WebMicroInfo } from 'Shared/MicroTypes';
+import { MicroState } from 'Shared/MicroTypes';
 // eslint-disable-next-line import/no-cycle
 import {
   SplitSegmentPayload, MergeSegmentsPayload, SetBrightnessPayload,
@@ -26,7 +26,7 @@ export enum StateMicroAction {
 type StateAction = StateMicroAction | StateOnlyAction;
 
 export type ByMicroId = {
-  [key: string]: WebMicroInfo;
+  [key: string]: MicroState;
 };
 export interface RemoteLightsState {
   allMicroIds: string[];
@@ -45,17 +45,17 @@ export interface RemoveMicrosPayload {
 export type RemoveMicrosStateAction = {
   type: StateOnlyAction.REMOVE_MICROS;
   payload: RemoveMicrosPayload;
-}
+};
 /*
 * Add Micros Spec
 */
 export interface AddMicrosPayload {
-  micros: WebMicroInfo[];
+  micros: MicroState[];
 }
 export type AddMicrosStateAction = {
   type: StateOnlyAction.ADD_MICROS;
   payload: AddMicrosPayload;
-}
+};
 /*
 * Reset State Specs
 */
@@ -140,7 +140,7 @@ const {
   MERGE, SPLIT, RESET_MICRO, SET_EFFECT, SET_BRIGHTNESS, RESIZE_FROM_BOUNDARIES,
 } = StateMicroAction;
 const {
-  RESET, ADD_MICROS, REMOVE_MICROS
+  RESET, ADD_MICROS, REMOVE_MICROS,
 } = StateOnlyAction;
 /*
 * Segment Actions
@@ -205,39 +205,42 @@ const stateActionToMicro = (
     ),
   },
 });
-type StateReducer<T extends StatePayloads> = (state: RemoteLightsState, payload: T) => RemoteLightsState;
-const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, {micros}) => {
+
+type StateReducer<T extends StatePayloads> =
+(state: RemoteLightsState, payload: T) => RemoteLightsState;
+
+const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, { micros }) => {
   const allMicroIds = state.allMicroIds.slice();
   const newByMicroId = micros.reduce((addedState, micro) => {
-    if (!allMicroIds.includes(micro.id)) allMicroIds.push(micro.id);
+    const { microId } = micro;
+    if (!allMicroIds.includes(microId)) allMicroIds.push(microId);
     return {
       ...addedState,
-      [micro.id]: micro,
-    }
-  }, {} as ByMicroId)
+      [microId]: micro,
+    };
+  }, {} as ByMicroId);
   return {
     ...state,
     allMicroIds,
     byMicroId: {
       ...state.byMicroId,
-      ...newByMicroId
-    }
+      ...newByMicroId,
+    },
   };
-}
-const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, {microIds}) => {
-  const allMicroIds = state.allMicroIds.filter((id) => {
-    return !microIds.includes(id);
-  });
+};
+const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, { microIds }) => {
+  const allMicroIds = state.allMicroIds.filter((id) => !microIds.includes(id));
   const byMicroId = allMicroIds.reduce((newByMicroId, microId) => {
+    // eslint-disable-next-line no-param-reassign
     newByMicroId[microId] = state.byMicroId[microId];
     return newByMicroId;
-  }, {} as ByMicroId)
+  }, {} as ByMicroId);
   return {
     ...state,
     allMicroIds,
     byMicroId,
   };
-}
+};
 export const initialState: RemoteLightsState = {
   allMicroIds: [],
   byMicroId: {},
