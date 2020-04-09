@@ -15,7 +15,7 @@ enum StateOnlyAction {
   ADD_MICROS = 'ADD_MICROS',
   REMOVE_MICROS = 'REMOVE_MICROS'
 }
-enum StateMicroAction {
+export enum StateMicroAction {
   SPLIT = 'SPLIT_SEGMENT',
   MERGE = 'MERGE_SEGMENTS',
   RESET_MICRO = 'RESET_MICRO',
