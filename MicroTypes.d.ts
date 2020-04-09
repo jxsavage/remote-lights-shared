@@ -1,4 +1,4 @@
-import { MicroEffect, Direction } from './MicroCommands';
+import { MicroEffect } from './MicroCommands';
 
 type MicroId = string;
 export interface MicroState {

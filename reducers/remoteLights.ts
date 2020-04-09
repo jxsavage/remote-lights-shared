@@ -182,7 +182,7 @@ ResizeSegmentsFromBoundariesStatePayload, ResizeSegmentsFromBoundariesStateActio
 */
 const convertToMicroAction = (
   stateActionType: StateMicroAction,
-) => {
+): ActionCreator<any, any> => {
   switch (stateActionType) {
     case SPLIT: return splitMicroSegment;
     case MERGE: return mergeMicroSegments;

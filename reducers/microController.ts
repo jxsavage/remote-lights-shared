@@ -102,7 +102,7 @@ const createSegment = (offset: number, numLEDs: number, effect: MicroEffect): LE
   effect,
   numLEDs,
 });
-const calculateSegmentBoundaries = (segments: LEDSegment[]) => {
+const calculateSegmentBoundaries = (segments: LEDSegment[]): number[] => {
   const boundaries: number[] = segments
     .reduce((boundaries, segment, index) => {
       const notEnd = !(index === (segments.length - 1));
