@@ -217,7 +217,7 @@ const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, {micros}) => {
   }, {} as ByMicroId)
   return {
     ...state,
-    ...allMicroIds,
+    allMicroIds,
     byMicroId: {
       ...state.byMicroId,
       ...newByMicroId
@@ -234,8 +234,8 @@ const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, {microIds
   }, {} as ByMicroId)
   return {
     ...state,
-    ...allMicroIds,
-    ...byMicroId,
+    allMicroIds,
+    byMicroId,
   };
 }
 export const initialState: RemoteLightsState = {
