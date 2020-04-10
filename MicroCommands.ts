@@ -4,10 +4,10 @@ export enum MicroEffect {
   ColorWaves,
   BlendWave
 }
+export const POSSIBLE_EFFECTS_STRINGS = Object.values(MicroEffect).filter((k) => typeof MicroEffect[k as any] === 'number');
 export enum GetMicroCommands {
   GET_STATE = 'GET_STATE',
 }
-export const POSSIBLE_EFFECTS_STRINGS = Object.keys(MicroEffect);
 export type MicroCommand = number;
 export type MicroCommands = {
   [values in StateMicroAction | GetMicroCommands]: MicroCommand;
@@ -20,16 +20,6 @@ export const MICRO_COMMAND: MicroCommands = {
   MERGE_SEGMENTS: 5,
   SET_SEGMENT_EFFECT: 6,
   RESIZE_SEGMENTS_FROM_BOUNDARIES: 7,
-}
-
-export enum SegmentCommand {
-  Effect,
-  Merge,
-  Split
-}
-export enum MicroMethod {
-  Get,
-  Set
 }
 export enum Direction {
   Left,
