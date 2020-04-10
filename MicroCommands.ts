@@ -3,7 +3,7 @@ export enum MicroEffect {
   ColorWaves,
   BlendWave
 }
-export const POSSIBLE_EFFECTS_STRINGS = Object.keys(MicroEffect);
+export const POSSIBLE_EFFECTS_STRINGS = Object.values(MicroEffect).filter((k) => typeof MicroEffect[k as any] === 'number');
 export enum MicroCommand {
   Brightness,
   Segment,
