@@ -1,16 +1,20 @@
-import { MicroEffect } from './MicroCommands';
+import { MicroEffect, MicroCommands } from './MicroCommands';
 
 type MicroId = string;
+export type TotalLEDs = number;
+export type Brightness = number;
 export interface MicroState {
   microId: MicroId;
-  totalLEDs: number;
-  brightness: number;
+  totalLEDs: TotalLEDs;
+  brightness: Brightness;
   segments: LEDSegment[];
   segmentBoundaries: number[];
 }
 
+export type Offset = number;
+export type NumLEDs = number;
 export interface LEDSegment {
-  offset: number;
-  numLEDs: number;
+  offset: Offset;
+  numLEDs: NumLEDs;
   effect: MicroEffect;
 }

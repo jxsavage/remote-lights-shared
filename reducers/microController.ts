@@ -97,12 +97,12 @@ ResizeSegmentsFromBoundariesPayload, ResizeSegmentsFromBoundariesAction
 interface MicroReducers<P extends MicroPayloads> {
   (state: MicroState, payload: P): MicroState;
 }
-const createSegment = (offset: number, numLEDs: number, effect: MicroEffect): LEDSegment => ({
+export const createSegment = (offset: number, numLEDs: number, effect: MicroEffect): LEDSegment => ({
   offset,
   effect,
   numLEDs,
 });
-const calculateSegmentBoundaries = (segments: LEDSegment[]): number[] => {
+export const calculateSegmentBoundaries = (segments: LEDSegment[]): number[] => {
   const boundaries: number[] = segments
     .reduce((boundaries, segment, index) => {
       const notEnd = !(index === (segments.length - 1));
