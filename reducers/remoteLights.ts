@@ -251,32 +251,42 @@ const remoteLights: StateReducers<StateActions> = (state = initialState, action)
     case SPLIT:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        },
       };
     case MERGE:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        },
       };
     case SET_EFFECT:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        },
       };
     case SET_BRIGHTNESS:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        },
       };
     case RESIZE_FROM_BOUNDARIES:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        },
       };
     case RESET:
       return action.payload.state;
