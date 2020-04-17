@@ -1,7 +1,6 @@
 import { MicroEffect, MicroCommands } from './MicroCommands';
-import { ResizeSegmentsFromBoundariesPayload } from './reducers/microController';
 
-type MicroId = number;
+export type MicroId = number;
 export type TotalLEDs = number;
 export type Brightness = number;
 

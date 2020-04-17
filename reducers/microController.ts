@@ -97,10 +97,12 @@ ResizeSegmentsFromBoundariesPayload, ResizeSegmentsFromBoundariesAction
 interface MicroReducers<P extends MicroPayloads> {
   (state: MicroState, payload: P): MicroState;
 }
-function generateSegmentId(): number {  
-  return Math.floor(Math.random() * (2147483647 - 1) + 1); 
-}  
-export const createSegment = (offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId): LEDSegment => ({
+function generateSegmentId(): number {
+  return Math.floor(Math.random() * (2147483647 - 1) + 1);
+}
+export const createSegment = (
+  offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId,
+): LEDSegment => ({
   offset,
   effect,
   numLEDs,
@@ -157,7 +159,9 @@ const splitSegmentReducer: MicroReducers<SplitSegmentPayload> = (
   const segments = state.segments.reduce((newArr, segment, i) => {
     const shouldSplit = segmentIndex === i;
     if (shouldSplit) {
-      const { effect, numLEDs, offset, segmentId } = segment;
+      const {
+        effect, numLEDs, offset, segmentId,
+      } = segment;
       const leftLen = Math.trunc(numLEDs / 2);
       const rightLen = numLEDs - leftLen;
       const rightOffset = offset + leftLen;
