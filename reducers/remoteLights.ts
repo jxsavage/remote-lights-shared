@@ -1,4 +1,4 @@
-import { MicroState } from 'Shared/MicroTypes';
+import { MicroState, MicroId } from 'Shared/MicroTypes';
 // eslint-disable-next-line import/no-cycle
 import {
   SplitSegmentPayload, MergeSegmentsPayload, SetBrightnessPayload,
@@ -26,21 +26,21 @@ export enum StateMicroAction {
 type StateAction = StateMicroAction | StateOnlyAction;
 
 export type ByMicroId = {
-  [key: string]: MicroState;
+  [key: number]: MicroState;
 };
 export interface RemoteLightsState {
-  allMicroIds: string[];
+  allMicroIds: MicroId[];
   byMicroId: ByMicroId;
 }
 type BaseStatePayload<P extends MicroPayloads | ResetPayload> = {
-  microId: string;
+  microId: MicroId;
   payload: P;
 };
 /*
 * Remove Micros Spec
 */
 export interface RemoveMicrosPayload {
-  microIds: string[];
+  microIds: MicroId[];
 }
 export type RemoveMicrosStateAction = {
   type: StateOnlyAction.REMOVE_MICROS;

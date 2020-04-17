@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import { Direction, MicroEffect } from '../MicroCommands';
-import { MicroState, LEDSegment } from '../MicroTypes';
+import { MicroState, LEDSegment, SegmentId } from '../MicroTypes';
 
 // eslint-disable-next-line import/no-cycle
 import { ActionCreator } from './actions';
@@ -97,10 +97,14 @@ ResizeSegmentsFromBoundariesPayload, ResizeSegmentsFromBoundariesAction
 interface MicroReducers<P extends MicroPayloads> {
   (state: MicroState, payload: P): MicroState;
 }
-export const createSegment = (offset: number, numLEDs: number, effect: MicroEffect): LEDSegment => ({
+function generateSegmentId() {  
+  return Math.floor(Math.random() * (2147483647 - 1) + 1); 
+}  
+export const createSegment = (offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId): LEDSegment => ({
   offset,
   effect,
   numLEDs,
+  segmentId,
 });
 export const calculateSegmentBoundaries = (segments: LEDSegment[]): number[] => {
   const boundaries: number[] = segments
@@ -126,18 +130,18 @@ MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
       const start = i === 0;
       const end = (i + 1) === boundaries.length;
       if (start) {
-        const { effect } = oldSegments[i];
+        const { effect, segmentId } = oldSegments[i];
         segments
-          .push(createSegment(0, boundary, effect));
+          .push(createSegment(0, boundary, effect, segmentId));
       }
       if (!start && !end) {
         // todo implement
       }
       if (end && (oldSegments.length > 1)) {
-        const { effect } = oldSegments[i + 1];
+        const { effect, segmentId } = oldSegments[i + 1];
         const numLEDs = state.totalLEDs - boundary;
         segments
-          .push(createSegment(boundary, numLEDs, effect));
+          .push(createSegment(boundary, numLEDs, effect, segmentId));
       }
       return segments;
     }, [] as LEDSegment[]);
@@ -153,15 +157,18 @@ const splitSegmentReducer: MicroReducers<SplitSegmentPayload> = (
   const segments = state.segments.reduce((newArr, segment, i) => {
     const shouldSplit = segmentIndex === i;
     if (shouldSplit) {
-      const { effect, numLEDs, offset } = segment;
+      const { effect, numLEDs, offset, segmentId } = segment;
       const leftLen = Math.trunc(numLEDs / 2);
       const rightLen = numLEDs - leftLen;
       const rightOffset = offset + leftLen;
       const splitLeft = direction === Direction.Left;
+      const newId = generateSegmentId();
       const leftEffect = splitLeft ? newEffect : effect;
+      const leftId = splitLeft ? newId : segmentId;
       const rightEffect = splitLeft ? effect : newEffect;
-      const newLeft = createSegment(offset, leftLen, leftEffect);
-      const newRight = createSegment(rightOffset, rightLen, rightEffect);
+      const rightId = splitLeft ? segmentId : newId;
+      const newLeft = createSegment(offset, leftLen, leftEffect, leftId);
+      const newRight = createSegment(rightOffset, rightLen, rightEffect, rightId);
       newArr.push(newLeft);
       newArr.push(newRight);
     } else {
@@ -187,14 +194,14 @@ const mergeSegmentsReducer: MicroReducers<MergeSegmentsPayload> = (
   if (segToMerge) {
     const offset = isLeftMerge ? segToMerge.offset : segment.offset;
     const numLEDs = segment.numLEDs + segToMerge.numLEDs;
-    newSegment = createSegment(offset, numLEDs, segment.effect);
+    newSegment = createSegment(offset, numLEDs, segment.effect, segment.segmentId);
   } else {
     const atStart = segmentIndex === 0;
     const numLEDs = atStart
       ? segment.offset + segment.numLEDs
       : state.totalLEDs - segment.offset;
     const offset = atStart ? 0 : segment.offset;
-    newSegment = createSegment(offset, numLEDs, segment.effect);
+    newSegment = createSegment(offset, numLEDs, segment.effect, segment.segmentId);
   }
   const spliceIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex;
   const segments = state.segments.slice();
@@ -213,8 +220,8 @@ const setSegmentEffectReducer: MicroReducers<SetSegmentEffectPayload> = (
     if (segmentIndex !== i) {
       return segment;
     }
-    const { offset, numLEDs } = segment;
-    return createSegment(offset, numLEDs, effect);
+    const { offset, numLEDs, segmentId } = segment;
+    return createSegment(offset, numLEDs, effect, segmentId);
   });
   return { ...state, segments };
 };
