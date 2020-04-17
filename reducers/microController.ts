@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
+/* eslint-disable import/no-cycle */
 import { Direction, MicroEffect } from '../MicroCommands';
 import { MicroState, LEDSegment, SegmentId } from '../MicroTypes';
-
-// eslint-disable-next-line import/no-cycle
 import { ActionCreator } from './actions';
 
 enum MicroAction {
