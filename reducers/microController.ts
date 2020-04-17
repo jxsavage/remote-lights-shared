@@ -136,8 +136,10 @@ MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
         segments
           .push(createSegment(0, boundary, effect, segmentId));
       }
-      if (!start && !end) {
-        // todo implement
+      if (!end && (oldSegments.length > 2)) {
+        const {effect, segmentId} = oldSegments[i+1];
+        const numLEDs = boundaries[i+1] - boundary;
+        segments.push(createSegment(boundary, numLEDs, effect, segmentId));
       }
       if (end && (oldSegments.length > 1)) {
         const { effect, segmentId } = oldSegments[i + 1];
