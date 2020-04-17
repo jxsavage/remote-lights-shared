@@ -97,7 +97,7 @@ ResizeSegmentsFromBoundariesPayload, ResizeSegmentsFromBoundariesAction
 interface MicroReducers<P extends MicroPayloads> {
   (state: MicroState, payload: P): MicroState;
 }
-function generateSegmentId() {  
+function generateSegmentId(): number {  
   return Math.floor(Math.random() * (2147483647 - 1) + 1); 
 }  
 export const createSegment = (offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId): LEDSegment => ({

@@ -209,7 +209,7 @@ const stateActionToMicro = (
 type StateReducer<T extends StatePayloads> =
 (state: RemoteLightsState, payload: T) => RemoteLightsState;
 
-const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, { micros }) => {
+const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, { micros }): RemoteLightsState => {
   const allMicroIds = state.allMicroIds.slice();
   const newByMicroId = micros.reduce((addedState, micro) => {
     const { microId } = micro;
@@ -218,7 +218,7 @@ const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, { micros }) => 
       ...addedState,
       [microId]: micro,
     };
-  }, {} as ByMicroId);
+  }, {});
   return {
     ...state,
     allMicroIds,
@@ -228,7 +228,7 @@ const addMicrosReducer: StateReducer<AddMicrosPayload> = (state, { micros }) => 
     },
   };
 };
-const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, { microIds }) => {
+const removeMicrosReducer: StateReducer<RemoveMicrosPayload> = (state, { microIds }): RemoteLightsState => {
   const allMicroIds = state.allMicroIds.filter((id) => !microIds.includes(id));
   const byMicroId = allMicroIds.reduce((newByMicroId, microId) => {
     // eslint-disable-next-line no-param-reassign
@@ -245,14 +245,16 @@ export const initialState: RemoteLightsState = {
   allMicroIds: [],
   byMicroId: {},
 };
-const remoteLights: StateReducers<StateActions> = (state = initialState, action) => {
+const remoteLights: StateReducers<StateActions> = (state = initialState, action): RemoteLightsState => {
   const { byMicroId } = state;
   switch (action.type) {
     case SPLIT:
       return {
         ...state,
-        ...byMicroId,
-        ...stateActionToMicro(action.payload, byMicroId, action.type),
+        byMicroId: {
+          ...byMicroId,
+          ...stateActionToMicro(action.payload, byMicroId, action.type),
+        }
       };
     case MERGE:
       return {
