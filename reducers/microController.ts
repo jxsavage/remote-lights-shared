@@ -137,7 +137,7 @@ MicroReducers<ResizeSegmentsFromBoundariesPayload> = (
       }
       if (!end && (oldSegments.length > 2)) {
         const {effect, segmentId} = oldSegments[i+1];
-        const numLEDs = boundaries[i+1] - boundary;
+        const numLEDs = boundaries[i + 1] - boundary;
         segments.push(createSegment(boundary, numLEDs, effect, segmentId));
       }
       if (end && (oldSegments.length > 1)) {
