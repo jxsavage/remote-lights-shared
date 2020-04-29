@@ -1,5 +1,7 @@
 import { CreateAction } from './types';
-import { Direction, MicroEffect, MicroId, SegmentId } from '../types';
+import {
+  Direction, MicroEffect, MicroId, SegmentId,
+} from '../types';
 import { generateSegmentId } from '../utils';
 
 export enum MicroActionType {
@@ -11,7 +13,10 @@ export enum MicroActionType {
   RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
 }
 
-const {MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES, SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT} = MicroActionType;
+const {
+  MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES,
+  SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
+} = MicroActionType;
 /**
  * Split Segment
  */
