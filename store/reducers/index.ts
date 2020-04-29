@@ -3,15 +3,13 @@ import {
   createSegment, calculateSegmentBoundaries, segmentsArrayToBySegmentId,
 } from '../utils';
 import {
-  RemoteLightsEntityActions, SplitSegmentPayload, MergeSegmentsPayload,
-  SetSegmentEffectPayload, SetMicroBrightnessPayload, ResizeSegmentsFromBoundariesPayload,
-  AddMicroFromControllerResponsePayload,
-  ADD_MICROS, REMOVE_MICROS, RESET_ALL_MICROS_STATE,
-  ADD_MICRO_FROM_CONTROLLER_RESPONSE,
-  MERGE_SEGMENTS, SPLIT_SEGMENT, SET_SEGMENT_EFFECT, SET_MICRO_BRIGHTNESS,
-  RESIZE_SEGMENTS_FROM_BOUNDARIES,
-
+  AllEntityActions, 
+  MicroActionType, MicroEntityTypes,
 } from '../actions';
+import { SplitSegmentPayload, MergeSegmentsPayload,
+  SetSegmentEffectPayload, SetMicroBrightnessPayload, ResizeSegmentsFromBoundariesPayload,
+} from '../actions/microcontroller';
+  import { AddMicroFromControllerResponsePayload, } from '../actions/microsEntity';
 import {
   RemoteLightsMicros, RemoteLightsEntity, initialState, Direction,
   LEDSegment, SegmentById, SegmentEntity, MicroEntity, MicroState,
@@ -282,9 +280,13 @@ function setMicroBrightnessReducer(
     allIds,
   };
 }
+const {MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES, SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT} = MicroActionType;
+const {
+  ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE, REMOVE_MICROS, RESET_ALL_MICROS_STATE
+} = MicroEntityTypes;
 export default function remoteLightsEntityReducer(
   state = initialState,
-  action: RemoteLightsEntityActions,
+  action: AllEntityActions,
 ): RemoteLightsEntity {
   switch (action.type) {
     case SPLIT_SEGMENT: {

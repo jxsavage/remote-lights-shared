@@ -1,25 +1,32 @@
 import { combineReducers, createStore } from 'redux';
 import remoteLightsEntityReducer from './reducers';
-import { EmittableAction } from './middleware';
+import { EmittableAction } from './middleware/emittableAction';
+
+import { AllActions as AllNonMiddlewareActions } from './actions';
 import {
   MicroState as typeMicroState,
   LEDSegment as typeLEDSegment,
 } from './types';
-import { RemoteLightsEntityActions } from './actions';
-
-export {
-  addMicros, mergeSegments, splitSegment, setMicroBrightness,
-  setSegmentEffect, resetAllMicrosState, removeMicros,
-  resizeSegmentsFromBoundaries,
-} from './actions';
-export { emitActionMiddleware, convertToEmittableAction } from './middleware';
+import { MicroActionsInterface as IMicroActionsInterface } from './actions/microcontroller';
 export type MicroState = typeMicroState;
 export type LEDSegment = typeLEDSegment;
+export type MicroActionsInterface = IMicroActionsInterface;
+export {
+  mergeSegments, splitSegment, setMicroBrightness,
+  setSegmentEffect, resizeSegmentsFromBoundaries,
+} from './actions/microcontroller';
+export {
+  addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse
+} from './actions/microsEntity';
+export { 
+  emitActionMiddleware, convertToEmittableAction,
+  actionToMicroCommandMiddleware,
+} from './middleware';
+
 export { Direction, MicroEffect, POSSIBLE_EFFECTS_STRINGS } from './types';
 
-type EmittableEntityActions = RemoteLightsEntityActions & EmittableAction;
-type AllEntityActions = RemoteLightsEntityActions | EmittableEntityActions;
-type AllActions = AllEntityActions;
+type EmittableEntityActions = AllNonMiddlewareActions & EmittableAction;
+export type AllActions = AllNonMiddlewareActions | EmittableEntityActions;
 // eslint-disable-next-line no-underscore-dangle
 const _rootReducerType = combineReducers({
   remoteLightsEntity: remoteLightsEntityReducer,
