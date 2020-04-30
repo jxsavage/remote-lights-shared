@@ -1,7 +1,7 @@
 import { MicroActions } from './microcontroller';
 import { RemoteLightsEntityActions } from './microsEntity';
 
-export { MicroActionType } from './microcontroller';
+export { MicroActionType, MICRO_COMMAND } from './microcontroller';
 export { MicroEntityTypes } from './microsEntity';
 export type AllEntityActions =
 MicroActions |

@@ -13,7 +13,7 @@ export type LEDSegment = typeLEDSegment;
 export type MicroActionsInterface = IMicroActionsInterface;
 export {
   mergeSegments, splitSegment, setMicroBrightness,
-  setSegmentEffect, resizeSegmentsFromBoundaries,
+  setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND
 } from './actions/microcontroller';
 export {
   addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse
