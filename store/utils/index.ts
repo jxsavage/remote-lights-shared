@@ -1,6 +1,5 @@
-import { MicroEffect } from 'Shared/MicroCommands';
 import {
-  LEDSegment, SegmentId, MicroId, SegmentById,
+  LEDSegment, SegmentId, MicroId, SegmentById, MicroEffect,
 } from '../types';
 
 export function generateSegmentId(): number {

@@ -12,7 +12,22 @@ export enum MicroActionType {
   SET_MICRO_BRIGHTNESS = 'SET_MICRO_BRIGHTNESS',
   RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
 }
-
+export enum GetMicroCommands {
+  GET_STATE = 'GET_STATE',
+}
+export type MicroCommand = number;
+export type MicroCommands = {
+  [values in MicroActionType | GetMicroCommands]: MicroCommand;
+};
+export const MICRO_COMMAND: MicroCommands = {
+  GET_STATE: 1,
+  RESET_MICRO_STATE: 2,
+  SPLIT_SEGMENT: 3,
+  SET_MICRO_BRIGHTNESS: 4,
+  MERGE_SEGMENTS: 5,
+  SET_SEGMENT_EFFECT: 6,
+  RESIZE_SEGMENTS_FROM_BOUNDARIES: 7,
+};
 const {
   MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
