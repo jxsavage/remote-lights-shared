@@ -42,7 +42,7 @@ export function actionToMicroCommandMiddleware<
         map.get(microId)?.resizeSegmentsFromBoundaries(action.payload);
         break;
       default:
-        console.log(`default case hit in with ${action} in actionToMicroCommand middleware...`)
+        console.log(`default case hit in with ${JSON.stringify(action)} in actionToMicroCommand middleware...`)
     }
   };
   return actionToMicroCommand;
