@@ -8,19 +8,20 @@ import {
   LEDSegment as typeLEDSegment,
 } from './types';
 import { MicroActionsInterface as IMicroActionsInterface } from './actions/microcontroller';
+
 export type MicroState = typeMicroState;
 export type LEDSegment = typeLEDSegment;
 export type MicroActionsInterface = IMicroActionsInterface;
 export {
   mergeSegments, splitSegment, setMicroBrightness,
-  setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND
+  setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND,
 } from './actions/microcontroller';
 export {
-  addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse
+  addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
 } from './actions/microsEntity';
-export { 
+export {
   emitActionMiddleware, convertToEmittableAction,
-  actionToMicroCommandMiddleware,
+  actionToMicroCommandMiddleware, logActionMiddleware,
 } from './middleware';
 
 export { Direction, MicroEffect, POSSIBLE_EFFECTS_STRINGS } from './types';

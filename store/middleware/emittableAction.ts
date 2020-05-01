@@ -45,8 +45,8 @@ export function emitActionMiddleware<S>(emit: EmitAction): Middleware<{}, S> {
         action.meta.socket.hasEmitted = true;
         emit(action);
       }
-      next(action);
     }
+    next(action);
   };
   return emitAction;
 }
