@@ -40,7 +40,7 @@ function addMicroFromControllerResponseReducer(
     totalLEDs,
     brightness,
     segmentBoundaries,
-    segments: segmentIds,
+    segmentIds,
   };
   // Constructing Micro Entity:
   const allMicroIds = [
@@ -88,9 +88,9 @@ function mergeSegmentsReducer(
   );
   /* Edit microcontrollers segments: */
   const micro = micros.byId[microId];
-  const microSegments = micro.segments.slice();
+  const segmentIds = micro.segmentIds.slice();
   const spliceIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex;
-  const [removedSegmentId] = microSegments.splice(spliceIndex, 1);
+  const [removedSegmentId] = segmentIds.splice(spliceIndex, 1);
   /* Rebuild SegmentsById and AllSegmentIds:  */
   const segmentsById: SegmentById = {};
   const allSegmentIds = segments.allIds.filter((segId) => {
@@ -105,7 +105,7 @@ function mergeSegmentsReducer(
     return false;
   });
   /* Recalculate segment boundaries for microcontroller:  */
-  const segmentBoundaries = calculateSegmentBoundaries(microSegments.map(
+  const segmentBoundaries = calculateSegmentBoundaries(segmentIds.map(
     (segId) => segmentsById[segId],
   ));
   return {
@@ -116,7 +116,7 @@ function mergeSegmentsReducer(
         [microId]: {
           ...micro,
           segmentBoundaries,
-          segments: microSegments,
+          segmentIds,
         },
       },
     },
@@ -134,7 +134,7 @@ function splitSegmentReducer(
   }: SplitSegmentPayload,
 ): RemoteLightsMicros {
   const micro = micros.byId[microId];
-  const oldMicroSegmentIds = micro.segments;
+  const oldMicroSegmentIds = micro.segmentIds;
   const oldMicroSegments = oldMicroSegmentIds.map(
     (segmentId) => segments.byId[segmentId],
   );
@@ -181,7 +181,7 @@ function splitSegmentReducer(
         [microId]: {
           ...micro,
           segmentBoundaries,
-          segments: newSegmentIds,
+          segmentIds: newSegmentIds,
         },
       },
       allIds: micros.allIds,
@@ -216,7 +216,7 @@ function resizeSegmentsFromBoundariesReducer(
   { microId, segmentBoundaries }: ResizeSegmentsFromBoundariesPayload,
 ): RemoteLightsMicros {
   const micro = micros.byId[microId];
-  const oldSegments = micro.segments.map(
+  const oldSegments = micro.segmentIds.map(
     (segId) => segments.byId[segId],
   );
   const resizedLEDSegments = segmentBoundaries

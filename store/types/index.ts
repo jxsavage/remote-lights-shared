@@ -32,8 +32,16 @@ export interface MicroState {
   microId: MicroId;
   totalLEDs: TotalLEDs;
   brightness: Brightness;
-  segments: SegmentId[];
+  segmentIds: SegmentId[];
   segmentBoundaries: number[];
+}
+/**
+ * Light Client Definitions
+ */
+type ClientId = string;
+export interface LightClientState {
+  clientId: ClientId;
+  microIds: MicroId[];
 }
 /**
  * Microcontroller Response Definitions
