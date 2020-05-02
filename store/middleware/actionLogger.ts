@@ -24,7 +24,6 @@ interface DetailedDiff {
   updated: any;
 }
 const {
-  NODE_ENV,
   REACT_APP_ACTION_LOGGER_LEVEL,
 } = process.env as unknown as ActionLoggerSettings;
 const { log } = console;
@@ -39,7 +38,7 @@ const textYellow = chalkColors.yellow;
 const bgYellow = chalkColors.black.bgYellow;
 const currentLogLevel = Number(REACT_APP_ACTION_LOGGER_LEVEL);
 const {
-  Silent, Info, Verbose, VeryVerbose,
+  Info, Verbose,
 } = LogLevel;
 export function logActionMiddleware<S = any>(): Middleware<{}, S> {
   const logAction: Middleware<AnyAction, S> = (
