@@ -44,6 +44,7 @@ export function actionToMicroCommandMiddleware<
       default:
         console.log(`default case hit in with ${JSON.stringify(action)} in actionToMicroCommand middleware...`)
     }
+    next(action);
   };
   return actionToMicroCommand;
 }
