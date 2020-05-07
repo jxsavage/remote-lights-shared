@@ -134,7 +134,7 @@ export default function remoteLightsEntityReducer(
     case ADD_MICROS: {
       const {
         micros, segments,
-      } = action.payload.MicrosAndSegmentsEntity;
+      } = action.payload;
       return {
         ...state,
         micros: {

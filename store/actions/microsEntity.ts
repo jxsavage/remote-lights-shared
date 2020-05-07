@@ -32,9 +32,7 @@ CreateAction<AddMicroFromControllerResponsePayload, AddMicroFromControllerRespon
 /**
  * Add Micros
  */
-export interface AddMicrosPayload {
-  MicrosAndSegmentsEntity: MicrosAndSegmentsEntity;
-}
+export type AddMicrosPayload = MicrosAndSegmentsEntity;
 interface AddMicrosAction
   extends Action<typeof ADD_MICROS> {
   payload: AddMicrosPayload;
