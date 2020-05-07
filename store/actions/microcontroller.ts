@@ -92,7 +92,7 @@ CreateAction<SetMicroBrightnessPayload, SetMicroBrightnessAction> = (
  * Set Segment Effect
  */
 export interface SetSegmentEffectPayload {
-  segmentId: SegmentId; effect: MicroEffect; microId: MicroId;
+  segmentId: SegmentId; newEffect: MicroEffect; microId: MicroId;
   segmentIndex: number;
 }
 interface SetSegmentEffectAction {

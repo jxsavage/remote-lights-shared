@@ -19,6 +19,7 @@ export interface LEDSegment {
   offset: Offset;
   numLEDs: NumLEDs;
   effect: MicroEffect;
+  effectControlledBy: null | SegmentGroupId;
   segmentId: SegmentId;
   microId: MicroId;
 }
@@ -79,10 +80,12 @@ export type SegmentEntity = {
  * Segment Group Enitity Definitions
  */
 export type SegmentGroupId = number;
-export type SegmentGroup = {
-  segments: SegmentId[];
+export interface SegmentGroup {
+  segmentIds: SegmentId[];
   segmentGroupId: SegmentGroupId;
-};
+  groupEffect: MicroEffect | null;
+  controlsEffect: boolean;
+}
 export type SegmentGroupIds = SegmentGroupId[];
 export type SegmentGroupById = {
   [key: number]: SegmentGroup;
@@ -94,11 +97,15 @@ export type SegmentGroupEntity = {
 /**
  * Combined Entity Definitions
  */
-export interface RemoteLightsMicros {
+export interface MicrosAndSegmentsEntity {
   micros: MicroEntity;
   segments: SegmentEntity;
 }
-export interface RemoteLightsEntity extends RemoteLightsMicros {
+export interface SegmentsAndGroupsEntity {
+  segments: SegmentEntity;
+  segmentGroups: SegmentGroupEntity;
+}
+export interface RemoteLightsEntity extends MicrosAndSegmentsEntity {
   segmentGroups: SegmentGroupEntity;
 }
 

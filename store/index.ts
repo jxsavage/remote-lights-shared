@@ -20,6 +20,10 @@ export {
   addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
 } from './actions/microsEntity';
 export {
+  createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,
+  changeGroupControlsEffect, setGroupEffect,
+} from './actions/segmentGroup';
+export {
   emitActionMiddleware, convertToEmittableAction,
   actionToMicroCommandMiddleware, logActionMiddleware,
 } from './middleware';

@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import {
-  RemoteLightsMicros, MicroId, RemoteLightsEntity, MicroStateResponse,
+  MicrosAndSegmentsEntity, MicroId, RemoteLightsEntity, MicroStateResponse,
 } from '../types';
 import { CreateAction } from './types';
 
@@ -12,7 +12,8 @@ export enum MicroEntityTypes {
 }
 
 const {
-  ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE, REMOVE_MICROS, RESET_ALL_MICROS_STATE
+  ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE,
+  REMOVE_MICROS, RESET_ALL_MICROS_STATE,
 } = MicroEntityTypes;
 /**
  * Add Micro from Controller Response
@@ -32,7 +33,7 @@ CreateAction<AddMicroFromControllerResponsePayload, AddMicroFromControllerRespon
  * Add Micros
  */
 export interface AddMicrosPayload {
-  remoteLightsMicros: RemoteLightsMicros;
+  MicrosAndSegmentsEntity: MicrosAndSegmentsEntity;
 }
 interface AddMicrosAction
   extends Action<typeof ADD_MICROS> {

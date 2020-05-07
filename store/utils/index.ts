@@ -7,6 +7,7 @@ export function generateSegmentId(): number {
 }
 export function createSegment(
   microId: MicroId, offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId,
+  effectControlledBy = null,
 ): LEDSegment {
   return {
     offset,
@@ -14,6 +15,7 @@ export function createSegment(
     numLEDs,
     microId,
     segmentId,
+    effectControlledBy,
   };
 }
 export function calculateSegmentBoundaries(segments: LEDSegment[]): number[] {
