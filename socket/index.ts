@@ -10,7 +10,15 @@ export enum ClientEmitEvent {
   ADD_MICRO_CHANNEL = 'ADD_MICRO_CHANNEL',
 }
 
-export enum SocketChannel {
+export enum SocketDestination {
   WEB_CLIENTS = 'WEB_CLIENTS',
   LIGHT_CLIENTS = 'LIGHT_CLIENTS',
+  SERVER = 'SERVER',
+  BROADCAST = 'BROADCAST',
+}
+
+export enum SocketSource {
+  WEB_CLIENT = 'WEB_CLIENT',
+  LIGHT_CLIENT = 'LIGHT_CLIENT',
+  SOCKET_SERVER = 'SOCKET_SERVER',
 }

@@ -1,39 +1,58 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import {
-  Middleware, MiddlewareAPI, Dispatch, AnyAction,
+  Middleware, MiddlewareAPI, Dispatch, AnyAction, Action,
 } from 'redux';
-import { SocketChannel } from 'Shared/socket';
+import { SocketDestination, SocketSource } from 'Shared/socket';
+import chalk from 'chalk';
 
-export interface EmittableAction extends AnyAction {
+const chalkColors = new chalk.Instance({ level: 3 });
+interface EmittableActionSocketMeta {
+  shouldEmit: boolean;
+  hasEmitted: boolean;
+  source: SocketSource;
+  destination: string | SocketDestination;
+}
+export interface EmittableAction extends Action {
   meta: {
-    socket: {
-      shouldEmit: boolean;
-      hasEmitted: boolean;
-    };
+    socket: EmittableActionSocketMeta;
   };
 }
 
-export function convertToEmittableAction<A extends AnyAction>(
-  action: A, destination: string | SocketChannel = 'BROADCAST'
-  ): A & EmittableAction {
-  const meta = action.meta ? action.meta : {};
-  return {
-    ...action,
-    meta: {
-      ...meta,
-      socket: {
-        shouldEmit: true,
-        hasEmitted: false,
-        destination
-      },
-    },
-  };
-}
+type ConvertToEmittableAction = <A extends AnyAction>(
+  action: AnyAction, destination: string | SocketDestination,
+) => A & EmittableAction;
 function isEmittableAction(action: AnyAction): action is EmittableAction {
   return action.meta?.socket !== undefined;
 }
+interface EmittableActionSettings {
+  REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT: string;
+}
+const {
+  REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT,
+} = process.env as unknown as EmittableActionSettings;
+
+const emitterOn = REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT === '1';
 type EmitAction = (action: AnyAction & EmittableAction) => void;
-export function emitActionMiddleware<S>(emit: EmitAction): Middleware<{}, S> {
+export function emitActionMiddleware<S>(emit: EmitAction, source: SocketSource):
+[<A extends AnyAction>(action: A, destination: string) => A & EmittableAction, Middleware<{}, S>] {
+  const convertToEmittableAction = function convert<A extends AnyAction>(
+    action: A, destination: string | SocketDestination,
+  ): A & EmittableAction {
+    const meta = action?.meta ? action.meta : {};
+    const socket: EmittableActionSocketMeta = {
+      shouldEmit: true,
+      hasEmitted: false,
+      destination,
+      source,
+    };
+    return {
+      ...action,
+      meta: {
+        ...meta,
+        socket,
+      },
+    };
+  };
   const emitAction: Middleware<EmittableAction, S> = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     api: MiddlewareAPI<Dispatch<AnyAction>, S>,
@@ -47,10 +66,15 @@ export function emitActionMiddleware<S>(emit: EmitAction): Middleware<{}, S> {
       if (shouldEmit && !hasEmitted) {
         // eslint-disable-next-line no-param-reassign
         action.meta.socket.hasEmitted = true;
-        emit(action);
+        if (emitterOn) {
+          emit(action);
+        } else {
+          // eslint-disable-next-line no-console
+          console.log(chalkColors.black.bgYellow('Warning: Emitter Off via REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT'));
+        }
       }
     }
     next(action);
   };
-  return emitAction;
+  return [convertToEmittableAction, emitAction];
 }

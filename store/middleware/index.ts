@@ -1,5 +1,5 @@
 export {
-  convertToEmittableAction, emitActionMiddleware,
+  emitActionMiddleware,
 } from './emittableAction';
 export {
   actionToMicroCommandMiddleware,

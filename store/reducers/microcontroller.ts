@@ -72,11 +72,12 @@ export function mergeSegmentsReducer(
   }: MergeSegmentsPayload,
 ): RemoteLightsEntity {
   /* Create merged segment: */
-  const segmentIndex = micros.byId[microId].segmentIds.indexOf(segmentId);
+  const segmentIds = micros.byId[microId].segmentIds.slice();
+  const segmentIndex = segmentIds.indexOf(segmentId);
   const segmentToKeep = segments.byId[segmentId];
   const isLeftMerge = direction === Direction.Left;
   const mergeIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex + 1;
-  const segmentToMerge = segments.byId[mergeIndex];
+  const segmentToMerge = segments.byId[segmentIds[mergeIndex]];
   const offset = isLeftMerge ? segmentToMerge.offset : segmentToKeep.offset;
   const numLEDs = segmentToKeep.numLEDs + segmentToMerge.numLEDs;
   const mergedSegment = createSegment(
@@ -84,9 +85,7 @@ export function mergeSegmentsReducer(
   );
   /* Edit microcontrollers segments: */
   const micro = micros.byId[microId];
-  const segmentIds = micro.segmentIds.slice();
-  const spliceIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex;
-  const [removedSegmentId] = segmentIds.splice(spliceIndex, 1);
+  const [removedSegmentId] = segmentIds.splice(mergeIndex, 1);
   /* Rebuild SegmentsById and AllSegmentIds:  */
   const segmentsById: SegmentById = {};
   const allSegmentIds = segments.allIds.filter((segId) => {
@@ -130,8 +129,8 @@ export function splitSegmentReducer(
   }: SplitSegmentPayload,
 ): MicrosAndSegmentsEntity {
   const micro = micros.byId[microId];
-  const oldMicroSegmentIds = micro.segmentIds;
-  const oldMicroSegments = oldMicroSegmentIds.map(
+  const segmentIds = micro.segmentIds.slice();
+  const oldMicroSegments = segmentIds.map(
     (segId) => segments.byId[segId],
   );
   const splitLeft = direction === Direction.Left;
@@ -164,7 +163,7 @@ export function splitSegmentReducer(
   * Micro Entity properties
   */
   const insertAtIndex = splitLeft ? segmentIndex : segmentIndex + 1;
-  const newSegmentIds = oldMicroSegmentIds.splice(insertAtIndex, 0, newSegmentId);
+  segmentIds.splice(insertAtIndex, 0, newSegmentId);
   const segmentBoundaries = calculateSegmentBoundaries(LEDSegments);
   /*
   * Segment Entity Properties
@@ -178,7 +177,7 @@ export function splitSegmentReducer(
         [microId]: {
           ...micro,
           segmentBoundaries,
-          segmentIds: newSegmentIds,
+          segmentIds,
         },
       },
       allIds: micros.allIds,

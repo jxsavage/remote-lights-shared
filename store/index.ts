@@ -1,4 +1,4 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers } from 'redux';
 import remoteLightsEntityReducer from './reducers';
 import { EmittableAction } from './middleware/emittableAction';
 
@@ -15,18 +15,18 @@ export type MicroActionsInterface = IMicroActionsInterface;
 export {
   mergeSegments, splitSegment, setMicroBrightness,
   setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND,
-  MicroActionType
+  MicroActionType,
 } from './actions/microcontroller';
 export {
   addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
-  MicroEntityTypes
+  MicroEntityTypes,
 } from './actions/microsEntity';
 export {
   createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,
-  changeGroupControlsEffect, setGroupEffect, GroupActionType
+  changeGroupControlsEffect, setGroupEffect, GroupActionType,
 } from './actions/segmentGroup';
 export {
-  emitActionMiddleware, convertToEmittableAction,
+  emitActionMiddleware,
   actionToMicroCommandMiddleware, logActionMiddleware,
 } from './middleware';
 
@@ -42,5 +42,3 @@ export type RootState = ReturnType<typeof _rootReducerType>;
 export const rootReducer = combineReducers<RootState, AllActions>({
   remoteLightsEntity: remoteLightsEntityReducer,
 });
-const store = createStore(rootReducer);
-export type RootStateDispatch = typeof store.dispatch;
