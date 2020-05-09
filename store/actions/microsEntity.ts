@@ -14,7 +14,7 @@ export enum MicroEntityTypes {
 
 const {
   ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE,
-  REMOVE_MICROS, RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE
+  REMOVE_MICROS, RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE,
 } = MicroEntityTypes;
 /**
  * Add Micro from Controller Response
