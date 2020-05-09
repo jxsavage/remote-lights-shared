@@ -68,10 +68,11 @@ export function addMicroFromControllerResponseReducer(
 export function mergeSegmentsReducer(
   { segments, micros, segmentGroups }: RemoteLightsEntity,
   {
-    microId, segmentId, segmentIndex, direction,
+    microId, segmentId, direction,
   }: MergeSegmentsPayload,
 ): RemoteLightsEntity {
   /* Create merged segment: */
+  const segmentIndex = micros.byId[microId].segmentIds.indexOf(segmentId);
   const segmentToKeep = segments.byId[segmentId];
   const isLeftMerge = direction === Direction.Left;
   const mergeIndex = isLeftMerge ? segmentIndex - 1 : segmentIndex + 1;
@@ -125,32 +126,33 @@ export function mergeSegmentsReducer(
 export function splitSegmentReducer(
   { segments, micros }: MicrosAndSegmentsEntity,
   {
-    microId, direction, segmentIndex, newSegmentId, newEffect,
+    microId, direction, newSegmentId, newEffect, segmentId,
   }: SplitSegmentPayload,
 ): MicrosAndSegmentsEntity {
   const micro = micros.byId[microId];
   const oldMicroSegmentIds = micro.segmentIds;
   const oldMicroSegments = oldMicroSegmentIds.map(
-    (segmentId) => segments.byId[segmentId],
+    (segId) => segments.byId[segId],
   );
   const splitLeft = direction === Direction.Left;
+  const segmentIndex = micros.byId[microId].segmentIds.indexOf(segmentId);
   const LEDSegments = oldMicroSegments.reduce((newArr, segment, i) => {
     const segmentToSplit = segmentIndex === i;
     if (segmentToSplit) {
       const {
-        effect, numLEDs, offset, segmentId,
+        effect, numLEDs, offset,
       } = segment;
       // Left LEDSegment
       const leftLen = Math.trunc(numLEDs / 2);
       const leftEffect = splitLeft ? newEffect : effect;
-      const leftId = splitLeft ? newSegmentId : segmentId;
+      const leftId = splitLeft ? newSegmentId : segment.segmentId;
       const newLeft = createSegment(microId, offset, leftLen, leftEffect, leftId);
       newArr.push(newLeft);
       // Right LEDSegment
       const rightLen = numLEDs - leftLen;
       const rightOffset = offset + leftLen;
       const rightEffect = splitLeft ? effect : newEffect;
-      const rightId = splitLeft ? segmentId : newSegmentId;
+      const rightId = splitLeft ? segment.segmentId : newSegmentId;
       const newRight = createSegment(microId, rightOffset, rightLen, rightEffect, rightId);
       newArr.push(newRight);
     } else {

@@ -36,7 +36,7 @@ const {
  * Split Segment
  */
 interface SplitSegmentActionArgs {
-  segmentIndex: number; direction: Direction;
+  segmentId: SegmentId; direction: Direction;
   newEffect: MicroEffect; microId: MicroId;
 }
 export interface SplitSegmentPayload extends SplitSegmentActionArgs {
@@ -64,7 +64,7 @@ CreateAction<SplitSegmentActionArgs, SplitSegmentAction> = (
  */
 export interface MergeSegmentsPayload {
   microId: MicroId; segmentId: SegmentId;
-  segmentIndex: number; direction: Direction;
+  direction: Direction;
 }
 interface MergeSegmentsAction {
   type: typeof MERGE_SEGMENTS;
@@ -93,7 +93,6 @@ CreateAction<SetMicroBrightnessPayload, SetMicroBrightnessAction> = (
  */
 export interface SetSegmentEffectPayload {
   segmentId: SegmentId; newEffect: MicroEffect; microId: MicroId;
-  segmentIndex: number;
 }
 interface SetSegmentEffectAction {
   type: typeof SET_SEGMENT_EFFECT;
