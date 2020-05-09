@@ -21,7 +21,7 @@ const {
 } = MicroActionType;
 const {
   ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE, REMOVE_MICROS,
-  RESET_ALL_MICROS_STATE,
+  RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE,
 } = MicroEntityTypes;
 const {
   CREATE_GROUP, DELETE_GROUP,
@@ -156,7 +156,7 @@ export default function remoteLightsEntityReducer(
     case REMOVE_MICROS:
       return state;
     case RESET_ALL_MICROS_STATE:
-      return action.payload.state;
+      return initialState;
     case ADD_MICRO_FROM_CONTROLLER_RESPONSE: {
       const { micros, segments } = state;
       return {
@@ -166,6 +166,11 @@ export default function remoteLightsEntityReducer(
         ),
       };
     }
+    case INIT_ENTITY_STATE:
+      return {
+        ...state,
+        ...action.payload,
+      }
     default:
       return state;
   }

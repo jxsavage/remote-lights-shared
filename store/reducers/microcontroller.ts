@@ -142,7 +142,7 @@ export function splitSegmentReducer(
         effect, numLEDs, offset,
       } = segment;
       // Left LEDSegment
-      const leftLen = Math.trunc(numLEDs / 2);
+      const leftLen = (numLEDs > 0) ? Math.trunc(numLEDs / 2) : 0;
       const leftEffect = splitLeft ? newEffect : effect;
       const leftId = splitLeft ? newSegmentId : segment.segmentId;
       const newLeft = createSegment(microId, offset, leftLen, leftEffect, leftId);

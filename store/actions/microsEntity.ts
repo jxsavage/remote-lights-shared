@@ -2,18 +2,19 @@ import { Action } from 'redux';
 import {
   MicrosAndSegmentsEntity, MicroId, RemoteLightsEntity, MicroStateResponse,
 } from '../types';
-import { CreateAction } from './types';
+import { CreateAction, CreateSimpleAction } from './types';
 
 export enum MicroEntityTypes {
   ADD_MICROS = 'ADD_MICROS',
   REMOVE_MICROS = 'REMOVE_MICROS',
+  INIT_ENTITY_STATE = 'INIT_ENTITY_STATE',
   RESET_ALL_MICROS_STATE = 'RESET_ALL_MICROS_STATE',
   ADD_MICRO_FROM_CONTROLLER_RESPONSE = 'ADD_MICRO_FROM_CONTROLLER_RESPONSE',
 }
 
 const {
   ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE,
-  REMOVE_MICROS, RESET_ALL_MICROS_STATE,
+  REMOVE_MICROS, RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE
 } = MicroEntityTypes;
 /**
  * Add Micro from Controller Response
@@ -58,20 +59,29 @@ CreateAction<RemoveMicrosPayload, RemoveMicrosAction> = (
 /**
  * Reset All Micros State
  */
-export interface ResetAllMicrosPayload {
-  state: RemoteLightsEntity;
-}
+// export interface ResetAllMicrosPayload {
+//   state: RemoteLightsEntity;
+// }
 interface ResetAllMicrosStateAction {
   type: typeof RESET_ALL_MICROS_STATE;
-  payload: ResetAllMicrosPayload;
 }
 export const resetAllMicrosState:
-CreateAction<ResetAllMicrosPayload, ResetAllMicrosStateAction> = (
+CreateSimpleAction<ResetAllMicrosStateAction> = (
+) => ({ type: RESET_ALL_MICROS_STATE });
+
+
+type InitEntityStatePayload = RemoteLightsEntity;
+interface InitEntityStateAction extends Action<typeof INIT_ENTITY_STATE> {
+  payload: InitEntityStatePayload;
+}
+export const initEntityState:
+CreateAction<InitEntityStatePayload, InitEntityStateAction> = (
   payload,
-) => ({ type: RESET_ALL_MICROS_STATE, payload });
+) => ({ type: INIT_ENTITY_STATE, payload });
 
 export type RemoteLightsEntityActions =
   AddMicrosAction |
   RemoveMicrosAction |
   ResetAllMicrosStateAction |
+  InitEntityStateAction |
   AddMicroFromControllerResponseAction;

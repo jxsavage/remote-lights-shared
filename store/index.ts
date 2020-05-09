@@ -19,6 +19,7 @@ export {
 } from './actions/microcontroller';
 export {
   addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
+  initEntityState,
   MicroEntityTypes,
 } from './actions/microsEntity';
 export {
