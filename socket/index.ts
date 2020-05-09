@@ -9,3 +9,8 @@ export enum ClientEmitEvent {
   INIT_LIGHT_CLIENT = 'INIT_LIGHT_CLIENT',
   ADD_MICRO_CHANNEL = 'ADD_MICRO_CHANNEL',
 }
+
+export enum SocketChannel {
+  WEB_CLIENTS = 'WEB_CLIENTS',
+  LIGHT_CLIENTS = 'LIGHT_CLIENTS',
+}

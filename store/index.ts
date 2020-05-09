@@ -15,13 +15,15 @@ export type MicroActionsInterface = IMicroActionsInterface;
 export {
   mergeSegments, splitSegment, setMicroBrightness,
   setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND,
+  MicroActionType
 } from './actions/microcontroller';
 export {
   addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
+  MicroEntityTypes
 } from './actions/microsEntity';
 export {
   createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,
-  changeGroupControlsEffect, setGroupEffect,
+  changeGroupControlsEffect, setGroupEffect, GroupActionType
 } from './actions/segmentGroup';
 export {
   emitActionMiddleware, convertToEmittableAction,
@@ -30,7 +32,7 @@ export {
 
 export { Direction, MicroEffect, POSSIBLE_EFFECTS_STRINGS } from './types';
 
-type EmittableEntityActions = AllNonMiddlewareActions & EmittableAction;
+export type EmittableEntityActions = AllNonMiddlewareActions & EmittableAction;
 export type AllActions = AllNonMiddlewareActions | EmittableEntityActions;
 // eslint-disable-next-line no-underscore-dangle
 const _rootReducerType = combineReducers({

@@ -2,6 +2,7 @@
 import {
   Middleware, MiddlewareAPI, Dispatch, AnyAction,
 } from 'redux';
+import { SocketChannel } from 'Shared/socket';
 
 export interface EmittableAction extends AnyAction {
   meta: {
@@ -12,7 +13,9 @@ export interface EmittableAction extends AnyAction {
   };
 }
 
-export function convertToEmittableAction<A extends AnyAction>(action: A): A & EmittableAction {
+export function convertToEmittableAction<A extends AnyAction>(
+  action: A, destination: string | SocketChannel = 'BROADCAST'
+  ): A & EmittableAction {
   const meta = action.meta ? action.meta : {};
   return {
     ...action,
@@ -21,6 +24,7 @@ export function convertToEmittableAction<A extends AnyAction>(action: A): A & Em
       socket: {
         shouldEmit: true,
         hasEmitted: false,
+        destination
       },
     },
   };
