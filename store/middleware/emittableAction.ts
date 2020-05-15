@@ -4,6 +4,7 @@ import {
 } from 'redux';
 import { SocketDestination, SocketSource } from 'Shared/socket';
 import chalk from 'chalk';
+import { AllActions } from '..';
 
 const chalkColors = new chalk.Instance({ level: 3 });
 interface EmittableActionSocketMeta {
@@ -12,16 +13,16 @@ interface EmittableActionSocketMeta {
   source: SocketSource;
   destination: string | SocketDestination;
 }
-export interface EmittableAction extends Action {
+export interface EmittableAction {
   meta: {
     socket: EmittableActionSocketMeta;
   };
 }
-
-type ConvertToEmittableAction = <A extends AnyAction>(
+type Emittable<A extends AllActions = AllActions> = A & EmittableAction;
+type ConvertToEmittableAction = <A extends AllActions>(
   action: AnyAction, destination: string | SocketDestination,
 ) => A & EmittableAction;
-function isEmittableAction(action: AnyAction): action is EmittableAction {
+function isEmittableAction(action: AnyAction): action is Emittable {
   return action.meta?.socket !== undefined;
 }
 interface EmittableActionSettings {
