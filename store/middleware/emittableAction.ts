@@ -34,14 +34,14 @@ const {
 const emitterOn = REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT === '1';
 type EmitAction = (action: AnyAction & EmittableAction) => void;
 export function emitActionMiddleware<S>(emit: EmitAction, source: SocketSource):
-[<A extends AnyAction>(action: A, destination: string) => A & EmittableAction, Middleware<{}, S>] {
+[<A extends AnyAction>(action: A, destination: string, hasEmitted?: boolean) => A & EmittableAction, Middleware<{}, S>] {
   const convertToEmittableAction = function convert<A extends AnyAction>(
-    action: A, destination: string | SocketDestination,
+    action: A, destination: string | SocketDestination, hasEmitted = false,
   ): A & EmittableAction {
     const meta = action?.meta ? action.meta : {};
     const socket: EmittableActionSocketMeta = {
       shouldEmit: true,
-      hasEmitted: false,
+      hasEmitted,
       destination,
       source,
     };
