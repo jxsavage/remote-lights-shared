@@ -4,6 +4,7 @@ import {
 } from 'redux';
 import { SocketDestination, SocketSource } from 'Shared/socket';
 import chalk from 'chalk';
+import { AllActions } from '..';
 
 const chalkColors = new chalk.Instance({ level: 3 });
 interface EmittableActionSocketMeta {
@@ -12,16 +13,16 @@ interface EmittableActionSocketMeta {
   source: SocketSource;
   destination: string | SocketDestination;
 }
-export interface EmittableAction extends Action {
+export interface EmittableAction {
   meta: {
     socket: EmittableActionSocketMeta;
   };
 }
-
-type ConvertToEmittableAction = <A extends AnyAction>(
+type Emittable<A extends AllActions = AllActions> = A & EmittableAction;
+type ConvertToEmittableAction = <A extends AllActions>(
   action: AnyAction, destination: string | SocketDestination,
 ) => A & EmittableAction;
-function isEmittableAction(action: AnyAction): action is EmittableAction {
+function isEmittableAction(action: AnyAction): action is Emittable {
   return action.meta?.socket !== undefined;
 }
 interface EmittableActionSettings {
@@ -34,14 +35,14 @@ const {
 const emitterOn = REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT === '1';
 type EmitAction = (action: AnyAction & EmittableAction) => void;
 export function emitActionMiddleware<S>(emit: EmitAction, source: SocketSource):
-[<A extends AnyAction>(action: A, destination: string) => A & EmittableAction, Middleware<{}, S>] {
+[<A extends AnyAction>(action: A, destination: string, hasEmitted?: boolean) => A & EmittableAction, Middleware<{}, S>] {
   const convertToEmittableAction = function convert<A extends AnyAction>(
-    action: A, destination: string | SocketDestination,
+    action: A, destination: string | SocketDestination, hasEmitted = false,
   ): A & EmittableAction {
     const meta = action?.meta ? action.meta : {};
     const socket: EmittableActionSocketMeta = {
       shouldEmit: true,
-      hasEmitted: false,
+      hasEmitted,
       destination,
       source,
     };

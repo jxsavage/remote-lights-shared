@@ -64,10 +64,11 @@ CreateAction<RemoveMicrosPayload, RemoveMicrosAction> = (
 // }
 interface ResetAllMicrosStateAction {
   type: typeof RESET_ALL_MICROS_STATE;
+  payload: {};
 }
 export const resetAllMicrosState:
 CreateSimpleAction<ResetAllMicrosStateAction> = (
-) => ({ type: RESET_ALL_MICROS_STATE });
+) => ({ type: RESET_ALL_MICROS_STATE, payload: {} });
 
 
 type InitEntityStatePayload = RemoteLightsEntity;

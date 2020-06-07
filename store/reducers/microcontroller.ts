@@ -215,6 +215,7 @@ export function resizeSegmentsFromBoundariesReducer(
   const oldSegments = micro.segmentIds.map(
     (segId) => segments.byId[segId],
   );
+  const numSegments = micro.segmentIds.length;
   const resizedLEDSegments = segmentBoundaries
     .reduce((resizedSegs, boundary, i, boundaries) => {
       const start = i === 0;
@@ -225,7 +226,8 @@ export function resizeSegmentsFromBoundariesReducer(
           createSegment(microId, 0, boundary, effect, segmentId),
         );
       }
-      if (!end && (oldSegments.length > 2)) {
+      const middle = !end && (numSegments > 2)
+      if (middle) {
         const { effect, segmentId } = oldSegments[i + 1];
         const numLEDs = boundaries[i + 1] - boundary;
         resizedSegs.push(
