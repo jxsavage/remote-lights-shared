@@ -2,7 +2,7 @@ import {
   LEDSegment, SegmentId, MicroId, SegmentById, MicroEffect,
 } from '../types';
 
-export function generateSegmentId(): number {
+export function generateId(): number {
   return Math.floor(Math.random() * (2147483647 - 1) + 1);
 }
 export function createSegment(

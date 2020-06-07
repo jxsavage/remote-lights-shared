@@ -2,7 +2,7 @@ import { CreateAction } from './types';
 import {
   Direction, MicroEffect, MicroId, SegmentId,
 } from '../types';
-import { generateSegmentId } from '../utils';
+import { generateId } from '../utils';
 
 export enum MicroActionType {
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
@@ -50,7 +50,7 @@ export const splitSegment:
 CreateAction<SplitSegmentActionArgs, SplitSegmentAction> = (
   payload,
 ) => {
-  const newSegmentId = generateSegmentId();
+  const newSegmentId = generateId();
   return {
     type: SPLIT_SEGMENT,
     payload: {

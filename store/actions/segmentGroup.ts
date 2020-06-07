@@ -3,7 +3,7 @@ import { CreateAction, CreateSimpleAction } from './types';
 import {
   SegmentGroup, LEDSegment, SegmentGroupId,
 } from '../types';
-import { generateSegmentId } from '../utils';
+import { generateId } from '../utils';
 
 export enum GroupActionType {
   CREATE_GROUP = 'CREATE_GROUP',
@@ -67,7 +67,7 @@ interface CreateGroupAction extends Action<typeof CREATE_GROUP> {
 
 export const createGroup:
 CreateSimpleAction<CreateGroupAction> = () => {
-  const newGroupId = generateSegmentId();
+  const newGroupId = generateId();
   return {
     type: CREATE_GROUP,
     payload: { newGroupId },
