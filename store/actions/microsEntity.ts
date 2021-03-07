@@ -70,7 +70,6 @@ export const resetAllMicrosState:
 CreateSimpleAction<ResetAllMicrosStateAction> = (
 ) => ({ type: RESET_ALL_MICROS_STATE, payload: {} });
 
-
 type InitEntityStatePayload = RemoteLightsEntity;
 interface InitEntityStateAction extends Action<typeof INIT_ENTITY_STATE> {
   payload: InitEntityStatePayload;

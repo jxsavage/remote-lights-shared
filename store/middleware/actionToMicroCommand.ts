@@ -9,13 +9,14 @@ import {
 
 const {
   SPLIT_SEGMENT, MERGE_SEGMENTS, SET_SEGMENT_EFFECT,
-  RESET_MICRO_STATE, SET_MICRO_BRIGHTNESS, 
-  RESIZE_SEGMENTS_FROM_BOUNDARIES
+  RESET_MICRO_STATE, SET_MICRO_BRIGHTNESS,
+  RESIZE_SEGMENTS_FROM_BOUNDARIES,
 } = MicroActionType;
 type MicroActionsMap = Map<MicroState['microId'], MicroActionsInterface>;
+// eslint-disable-next-line import/prefer-default-export
 export function actionToMicroCommandMiddleware<
   S>(map: MicroActionsMap): Middleware<{}, S
-  > {
+> {
   const actionToMicroCommand: Middleware<MicroActions, S> = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     api: MiddlewareAPI<Dispatch<AnyAction>, S>,
@@ -42,7 +43,7 @@ export function actionToMicroCommandMiddleware<
         map.get(microId)?.resizeSegmentsFromBoundaries(action.payload);
         break;
       default:
-        console.log(`default case hit in with ${JSON.stringify(action)} in actionToMicroCommand middleware...`)
+        console.log(`default case hit in with ${JSON.stringify(action)} in actionToMicroCommand middleware...`);
     }
     next(action);
   };

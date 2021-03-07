@@ -14,7 +14,6 @@ import {
   addMicroFromControllerResponseReducer,
 } from './microcontroller';
 
-
 const {
   MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
@@ -170,7 +169,7 @@ export default function remoteLightsEntityReducer(
       return {
         ...state,
         ...action.payload,
-      }
+      };
     default:
       return state;
   }

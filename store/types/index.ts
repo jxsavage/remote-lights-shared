@@ -1,4 +1,3 @@
-
 export enum MicroEffect {
   ColorWaves,
   BlendWave

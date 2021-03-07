@@ -4,6 +4,7 @@ import {
 } from 'redux';
 import { SocketDestination, SocketSource } from 'Shared/socket';
 import chalk from 'chalk';
+// eslint-disable-next-line import/no-cycle
 import { AllActions } from '..';
 
 const chalkColors = new chalk.Instance({ level: 3 });
@@ -35,7 +36,8 @@ const {
 const emitterOn = REACT_APP_EMITTALBE_ACTION_SHOULD_EMIT === '1';
 type EmitAction = (action: AnyAction & EmittableAction) => void;
 export function emitActionMiddleware<S>(emit: EmitAction, source: SocketSource):
-[<A extends AnyAction>(action: A, destination: string, hasEmitted?: boolean) => A & EmittableAction, Middleware<{}, S>] {
+[<A extends AnyAction>(action: A, destination: string, hasEmitted?: boolean) =>
+A & EmittableAction, Middleware<{}, S>] {
   const convertToEmittableAction = function convert<A extends AnyAction>(
     action: A, destination: string | SocketDestination, hasEmitted = false,
   ): A & EmittableAction {
