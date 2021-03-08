@@ -5,8 +5,10 @@ import {
 import { generateId } from '../utils';
 
 export enum MicroActionType {
+  SET_MICRO_ID = 'SET_MICRO_ID',
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
   MERGE_SEGMENTS = 'MERGE_SEGMENTS',
+  SET_SEGMENT_ID = 'SET_SEGMENT_ID',
   RESET_MICRO_STATE = 'RESET_MICRO_STATE',
   SET_SEGMENT_EFFECT = 'SET_SEGMENT_EFFECT',
   SET_MICRO_BRIGHTNESS = 'SET_MICRO_BRIGHTNESS',
@@ -19,6 +21,10 @@ export type MicroCommand = number;
 export type MicroCommands = {
   [values in MicroActionType | GetMicroCommands]: MicroCommand;
 };
+/**
+ * Directly maps to enum in microcontroller.
+ * Changes here require changes in microcontroller code.
+ */
 export const MICRO_COMMAND: MicroCommands = {
   GET_STATE: 1,
   RESET_MICRO_STATE: 2,
@@ -27,10 +33,12 @@ export const MICRO_COMMAND: MicroCommands = {
   MERGE_SEGMENTS: 5,
   SET_SEGMENT_EFFECT: 6,
   RESIZE_SEGMENTS_FROM_BOUNDARIES: 7,
+  SET_MICRO_ID: 8,
+  SET_SEGMENT_ID: 9,
 };
 const {
   MERGE_SEGMENTS, RESET_MICRO_STATE, RESIZE_SEGMENTS_FROM_BOUNDARIES,
-  SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
+  SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT, SET_MICRO_ID,
 } = MicroActionType;
 /**
  * Split Segment
