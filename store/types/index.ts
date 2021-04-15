@@ -18,7 +18,7 @@ export interface LEDSegment {
   offset: Offset;
   numLEDs: NumLEDs;
   effect: MicroEffect;
-  effectControlledBy: null | SegmentGroupId;
+  effectControlledBy: SegmentGroupId;
   segmentId: SegmentId;
   microId: MicroId;
 }

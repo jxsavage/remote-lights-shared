@@ -49,7 +49,7 @@ export function changeGroupControlsEffectReducer(
     // eslint-disable-next-line no-param-reassign
     segsById[segmentId] = {
       ...segments.byId[segmentId],
-      effectControlledBy: controlsEffect ? groupId : null,
+      effectControlledBy: controlsEffect ? groupId : 0,
     };
     return segsById;
   }, {} as SegmentsAndGroupsEntity['segments']['byId']);

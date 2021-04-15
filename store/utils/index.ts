@@ -1,5 +1,5 @@
 import {
-  LEDSegment, SegmentId, MicroId, SegmentById, MicroEffect,
+  LEDSegment, SegmentId, MicroId, SegmentById, MicroEffect, MicroStateResponse, MicrosAndSegmentsEntity, MicroState,
 } from '../types';
 
 export function generateId(): number {
@@ -7,7 +7,7 @@ export function generateId(): number {
 }
 export function createSegment(
   microId: MicroId, offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId,
-  effectControlledBy = null,
+  effectControlledBy = 0,
 ): LEDSegment {
   return {
     offset,
@@ -40,4 +40,42 @@ export function segmentsArrayToBySegmentId(segments: LEDSegment[]): SegmentById 
     byId[segment.segmentId] = segment;
     return byId;
   }, {} as SegmentById);
+}
+/**
+ * Converts response from microcontroller to a
+ * MicrosAndSegmentsEntity to be merged with
+ * Redis or Redux.
+ * @param MicroStateResponse
+ * @returns MicrosAndSegmentsEntity representing the microcontrollers state.
+ */
+export function convertMicroResponseToMicroEntity([
+  , microId, totalLEDs, brightness, segmentResponseArr
+]: MicroStateResponse): MicrosAndSegmentsEntity {
+  const segmentIds: SegmentId[] = [];
+  
+  const LEDSegments = segmentResponseArr.map((segmentResponse) => {
+    const [,,,segmentId] = segmentResponse;
+    segmentIds.push(segmentId);
+    return createSegment(microId, ...segmentResponse);
+  });
+  const segmentBoundaries = calculateSegmentBoundaries(LEDSegments);
+  const micro: MicroState = {
+    microId,
+    totalLEDs,
+    brightness,
+    segmentBoundaries,
+    segmentIds,
+  };
+  return {
+    micros: {
+      allIds: [microId],
+      byId: {
+        [microId]: micro,
+      } 
+    },
+    segments: {
+      allIds: segmentIds,
+      byId: segmentsArrayToBySegmentId(LEDSegments),
+    }
+  }
 }
