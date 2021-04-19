@@ -9,7 +9,7 @@ import {
 import { AddMicroFromControllerResponsePayload } from '../actions/microsEntity';
 import {
   MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
-  LEDSegment, SegmentById, SegmentEntity, MicroEntity, MicroState, SegmentResponse, MicroId,
+  LEDSegment, SegmentById, SegmentEntity, MicroEntity, MicroState,
 } from '../types';
 export function addMicroFromControllerResponseReducer(
   { micros, segments }: MicrosAndSegmentsEntity,
