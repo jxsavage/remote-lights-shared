@@ -64,7 +64,7 @@ CreateAction<RemoveMicrosPayload, RemoveMicrosAction> = (
 // }
 interface ResetAllMicrosStateAction {
   type: typeof RESET_ALL_MICROS_STATE;
-  payload: {};
+  payload: Record<string, never>;
 }
 export const resetAllMicrosState:
 CreateSimpleAction<ResetAllMicrosStateAction> = (
