@@ -19,9 +19,8 @@ export {
   MicroActionType,
 } from './actions/microcontroller';
 export {
-  addMicros, resetAllMicrosState, removeMicros, addMicroFromControllerResponse,
-  initEntityState,
-  MicroEntityTypes,
+  addMicros, resetAllMicrosState, removeMicros,
+  initEntityState, MicroEntityActionType,
 } from './actions/microsEntity';
 export {
   createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,

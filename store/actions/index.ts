@@ -3,7 +3,7 @@ import { RemoteLightsEntityActions } from './microsEntity';
 import { SegmentGroupActions } from './segmentGroup';
 
 export { MicroActionType, MICRO_COMMAND } from './microcontroller';
-export { MicroEntityTypes } from './microsEntity';
+export { MicroEntityActionType } from './microsEntity';
 export { GroupActionType } from './segmentGroup';
 
 export type AllEntityActions =

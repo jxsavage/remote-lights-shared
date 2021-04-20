@@ -6,64 +6,10 @@ import {
   SetSegmentEffectPayload, SetMicroBrightnessPayload,
   ResizeSegmentsFromBoundariesPayload,
 } from '../actions/microcontroller';
-import { AddMicroFromControllerResponsePayload } from '../actions/microsEntity';
 import {
   MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
-  LEDSegment, SegmentById, SegmentEntity, MicroEntity, MicroState,
+  LEDSegment, SegmentById, SegmentEntity, MicroEntity,
 } from '../types';
-export function addMicroFromControllerResponseReducer(
-  { micros, segments }: MicrosAndSegmentsEntity,
-  {
-    microResponse: [,
-      microId, totalLEDs, brightness, segmentsResponse,
-    ],
-  }: AddMicroFromControllerResponsePayload,
-): MicrosAndSegmentsEntity {
-  // Construct MicroState:
-  const segmentIds: number[] = [];
-  const LEDSegments = segmentsResponse.map(
-    (segmentResponse) => {
-      const [,,,segmentId] = segmentResponse;
-      segmentIds.push(segmentId);
-      return createSegment(microId, ...segmentResponse);
-    },
-  );
-  const segmentBoundaries = calculateSegmentBoundaries(LEDSegments);
-  const micro: MicroState = {
-    microId,
-    totalLEDs,
-    brightness,
-    segmentBoundaries,
-    segmentIds,
-  };
-  // Constructing Micro Entity:
-  const allMicroIds = [
-    ...Array.from(new Set([...micros.allIds, microId]))];
-  const byMicroId = {
-    ...micros.byId,
-    [microId]: micro,
-  };
-  const newMicros = {
-    byId: byMicroId,
-    allIds: allMicroIds,
-  };
-  // Construct Segment Entity:
-  const allSegmentIds = [
-    ...Array.from(new Set([...segments.allIds, ...segmentIds]))];
-  const segmentsById = {
-    ...segments.byId,
-    ...segmentsArrayToBySegmentId(LEDSegments),
-  };
-  const newSegments = {
-    byId: segmentsById,
-    allIds: allSegmentIds,
-  };
-
-  return {
-    micros: newMicros,
-    segments: newSegments,
-  };
-}
 export function mergeSegmentsReducer(
   { segments, micros, segmentGroups }: RemoteLightsEntity,
   {

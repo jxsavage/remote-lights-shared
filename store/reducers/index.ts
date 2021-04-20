@@ -1,5 +1,5 @@
 import {
-  AllEntityActions, MicroActionType, MicroEntityTypes, GroupActionType,
+  AllEntityActions, MicroActionType, MicroEntityActionType, GroupActionType,
 } from '../actions';
 import { RemoteLightsEntity, initialState } from '../types';
 import {
@@ -11,7 +11,6 @@ import {
 import {
   splitSegmentReducer, mergeSegmentsReducer, setSegmentEffectReducer,
   setMicroBrightnessReducer, resizeSegmentsFromBoundariesReducer,
-  addMicroFromControllerResponseReducer,
 } from './microcontroller';
 
 const {
@@ -19,9 +18,9 @@ const {
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
 } = MicroActionType;
 const {
-  ADD_MICROS, ADD_MICRO_FROM_CONTROLLER_RESPONSE, REMOVE_MICROS,
+  ADD_MICROS, REMOVE_MICROS,
   RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE,
-} = MicroEntityTypes;
+} = MicroEntityActionType;
 const {
   CREATE_GROUP, DELETE_GROUP,
   ADD_SEGMENT_TO_GROUP, REMOVE_SEGMENT_FROM_GROUP,
@@ -156,15 +155,6 @@ export default function remoteLightsEntityReducer(
       return state;
     case RESET_ALL_MICROS_STATE:
       return initialState;
-    case ADD_MICRO_FROM_CONTROLLER_RESPONSE: {
-      const { micros, segments } = state;
-      return {
-        ...state,
-        ...addMicroFromControllerResponseReducer(
-          { micros, segments }, action.payload,
-        ),
-      };
-    }
     case INIT_ENTITY_STATE:
       return {
         ...state,
