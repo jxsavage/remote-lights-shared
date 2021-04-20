@@ -57,7 +57,7 @@ export type MicroStateResponse = [
  * Micro Enitity Definitions
  */
 export type MicroById = {
-  [key: number]: MicroState;
+  [key: string]: MicroState;
 };
 export type AllMicroIds = MicroId[];
 export type MicroEntity = {
@@ -68,7 +68,7 @@ export type MicroEntity = {
  * Segment Entity Definitions
  */
 export type SegmentById = {
-  [key: number]: LEDSegment;
+  [key: string]: LEDSegment;
 };
 export type AllSegmentIds = SegmentId[];
 export type SegmentEntity = {
