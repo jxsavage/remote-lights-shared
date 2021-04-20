@@ -141,14 +141,14 @@ export default function remoteLightsEntityReducer(
             ...state.micros.byId,
             ...micros.byId,
           },
-          allIds: state.micros.allIds.concat(micros.allIds),
+          allIds: Array.from(new Set(state.micros.allIds.concat(micros.allIds))),
         },
         segments: {
           byId: {
             ...state.segments.byId,
             ...segments.byId,
           },
-          allIds: state.segments.allIds.concat(segments.allIds),
+          allIds: Array.from(new Set(state.segments.allIds.concat(segments.allIds))),
         },
       };
     }
