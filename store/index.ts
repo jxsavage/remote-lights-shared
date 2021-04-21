@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import remoteLightsEntityReducer from './reducers';
 import { AllActions as AllNonMiddlewareActions } from './actions';
 import { EmittableAction } from './types';
 
