@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 import remoteLightsEntityReducer from './reducers';
-// eslint-disable-next-line import/no-cycle
-import { EmittableAction } from '../../redux/middleware/emittableAction';
-
 import { AllActions as AllNonMiddlewareActions } from './actions';
+import { EmittableAction } from './types';
 
 export * from './types';
 export * from './utils';
