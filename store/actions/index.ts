@@ -2,9 +2,10 @@ import { MicroActions } from './microcontroller';
 import { RemoteLightsEntityActions } from './microsEntity';
 import { SegmentGroupActions } from './segmentGroup';
 
-export { MicroActionType, MICRO_COMMAND } from './microcontroller';
-export { MicroEntityActionType } from './microsEntity';
-export { GroupActionType } from './segmentGroup';
+export * from './microcontroller';
+export * from './microsEntity';
+export * from './segmentGroup';
+export * from './types';
 
 export type AllEntityActions =
 MicroActions |
