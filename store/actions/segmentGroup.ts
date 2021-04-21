@@ -1,5 +1,4 @@
-import { Action } from 'redux';
-import { CreateAction, CreateSimpleAction } from './types';
+import { CreateAction, CreateSimpleAction, Action } from './types';
 import {
   SegmentGroup, LEDSegment, SegmentGroupId,
 } from '../types';

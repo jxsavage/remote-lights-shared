@@ -10,6 +10,7 @@ import {
   MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
   LEDSegment, SegmentById, SegmentEntity, MicroEntity,
 } from '../types';
+
 export function mergeSegmentsReducer(
   { segments, micros, segmentGroups }: RemoteLightsEntity,
   {

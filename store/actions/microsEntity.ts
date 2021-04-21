@@ -1,8 +1,10 @@
-import { Action } from 'redux';
 import {
-  MicrosAndSegmentsEntity, MicroId, RemoteLightsEntity, MicroStateResponse,
+  MicrosAndSegmentsEntity, MicroId,
+  RemoteLightsEntity,
 } from '../types';
-import { CreateAction, CreateSimpleAction } from './types';
+import {
+  CreateAction, CreateSimpleAction, Action,
+} from './types';
 
 export enum MicroEntityActionType {
   ADD_MICROS = 'ADD_MICROS',
