@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { AllActions as AllNonMiddlewareActions } from './actions';
 import { EmittableAction } from './types';
 
