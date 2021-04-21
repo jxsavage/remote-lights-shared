@@ -1,12 +1,20 @@
+import {
+  LEDSegment, MicroEffect, MicroId,
+  MicrosAndSegmentsEntity, SegmentId,
+} from 'Shared/store';
 
-import { MicroActionType } from './index';
-
-
+interface RedisSplitSegmentPayload {
+  microId: MicroId,
+  newSegmentId: SegmentId,
+  segmentIds: SegmentId[],
+  segmentBoundaries: number[],
+  LEDSegments: LEDSegment[],
+}
 
 function generateSplitSegmentPayload(
   microId: MicroId, entity: MicrosAndSegmentsEntity,
   newSegmentId: SegmentId,
-): RedisSplitSegmentsPayload {
+): RedisSplitSegmentPayload {
   const { segmentBoundaries, segmentIds } = entity.micros.byId[microId];
   const LEDSegments = segmentIds.map((segId) => entity.segments.byId[segId]);
   return {

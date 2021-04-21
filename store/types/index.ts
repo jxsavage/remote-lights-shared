@@ -1,4 +1,4 @@
-import { SocketDestination, SocketSource } from "Shared/socket";
+import { SocketDestination, SocketSource } from 'Shared/socket';
 
 export enum MicroEffect {
   ColorWaves,
@@ -125,7 +125,7 @@ export const initialState: RemoteLightsEntity = {
   },
 };
 
-interface EmittableActionSocketMeta {
+export interface EmittableActionSocketMeta {
   shouldEmit: boolean;
   hasEmitted: boolean;
   source: SocketSource;
