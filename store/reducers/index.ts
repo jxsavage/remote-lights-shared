@@ -26,7 +26,8 @@ const {
   ADD_SEGMENT_TO_GROUP, REMOVE_SEGMENT_FROM_GROUP,
   CHANGE_GROUP_CONTROLS_EFFECT, SET_GROUP_EFFECT,
 } = GroupActionType;
-export default function remoteLightsEntityReducer(
+// eslint-disable-next-line import/prefer-default-export
+export function remoteLightsEntityReducer(
   state = initialState,
   action: AllEntityActions,
 ): RemoteLightsEntity {
