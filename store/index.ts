@@ -4,34 +4,30 @@ import remoteLightsEntityReducer from './reducers';
 import { EmittableAction } from './middleware/emittableAction';
 
 import { AllActions as AllNonMiddlewareActions } from './actions';
-import {
-  MicroState as typeMicroState,
-  LEDSegment as typeLEDSegment,
-} from './types';
-import { MicroActionsInterface as IMicroActionsInterface } from './actions/microcontroller';
 
-export type MicroState = typeMicroState;
-export type LEDSegment = typeLEDSegment;
-export type MicroActionsInterface = IMicroActionsInterface;
-export {
-  mergeSegments, splitSegment, setMicroBrightness,
-  setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND,
-  MicroActionType,
-} from './actions/microcontroller';
-export {
-  addMicros, resetAllMicrosState, removeMicros,
-  initEntityState, MicroEntityActionType,
-} from './actions/microsEntity';
-export {
-  createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,
-  changeGroupControlsEffect, setGroupEffect, GroupActionType,
-} from './actions/segmentGroup';
-export {
-  emitActionMiddleware,
-  actionToMicroCommandMiddleware, logActionMiddleware,
-} from './middleware';
+export * from './types';
+export * from './utils';
+export * from './actions';
+export * from './reducers';
+// export {
+//   mergeSegments, splitSegment, setMicroBrightness,
+//   setSegmentEffect, resizeSegmentsFromBoundaries, MICRO_COMMAND,
+//   MicroActionType,
+// } from './actions/microcontroller';
+// export {
+//   addMicros, resetAllMicrosState, removeMicros,
+//   initEntityState, MicroEntityActionType,
+// } from './actions/microsEntity';
+// export {
+//   createGroup, deleteGroup, addSegmentToGroup, removeSegmentFromGroup,
+//   changeGroupControlsEffect, setGroupEffect, GroupActionType,
+// } from './actions/segmentGroup';
+// export {
+//   emitActionMiddleware,
+//   actionToMicroCommandMiddleware, logActionMiddleware,
+// } from './middleware';
 
-export { Direction, MicroEffect, POSSIBLE_EFFECTS_STRINGS } from './types';
+// export { Direction, MicroEffect, POSSIBLE_EFFECTS_STRINGS } from './types';
 
 export type EmittableEntityActions = AllNonMiddlewareActions & EmittableAction;
 export type AllActions = AllNonMiddlewareActions | EmittableEntityActions;
