@@ -35,7 +35,7 @@ interface SplitSegmentRedisPayload {
   LEDSegments: LEDSegment[],
 }
 type SplitSegmentRedisMeta = RedisMeta<SplitSegmentRedisPayload>;
-type SplitSegmentRedisAction = SplitSegmentAction & SplitSegmentRedisMeta;
+export type SplitSegmentRedisAction = SplitSegmentAction & SplitSegmentRedisMeta;
 export function splitSegmentRedis(
   newEntity: RemoteLightsEntity,
   action: SplitSegmentAction,
@@ -63,7 +63,7 @@ interface MergeSegmentsRedisPayload {
   LEDSegments: LEDSegment[],
 }
 type MergeSegmentsRedisMeta = RedisMeta<MergeSegmentsRedisPayload>;
-type MergeSegmentsRedisAction = MergeSegmentsAction & MergeSegmentsRedisMeta;
+export type MergeSegmentsRedisAction = MergeSegmentsAction & MergeSegmentsRedisMeta;
 export function mergeSegmentsRedis(
   prevEntity: RemoteLightsEntity,
   newEntity: RemoteLightsEntity,
@@ -92,7 +92,7 @@ interface SetSegmentEffectRedisPayload {
   newEffect: MicroEffect,
 }
 type SetSegmentEffectRedisMeta = RedisMeta<SetSegmentEffectRedisPayload>;
-type SetSegmentEffectRedisAction = SetSegmentEffectAction & SetSegmentEffectRedisMeta;
+export type SetSegmentEffectRedisAction = SetSegmentEffectAction & SetSegmentEffectRedisMeta;
 export function setSegmentEffectRedis(
   action: SetSegmentEffectAction,
 ): SetSegmentEffectRedisAction {
@@ -106,7 +106,7 @@ export function setSegmentEffectRedis(
   };
 }
 type SetMicroBrightnessRedisMeta = RedisMeta<SetMicroBrightnessRedisPayload>;
-type SetMicroBrightnessRedisAction = SetMicroBrightnessAction & SetMicroBrightnessRedisMeta;
+export type SetMicroBrightnessRedisAction = SetMicroBrightnessAction & SetMicroBrightnessRedisMeta;
 interface SetMicroBrightnessRedisPayload {
   microId: MicroId,
   brightness: number,
@@ -131,7 +131,7 @@ interface ResizeSegmentsFromBoundariesRedisPayload {
 }
 type ResizeSegmentsFromBoundariesRedisMeta =
   RedisMeta<ResizeSegmentsFromBoundariesRedisPayload>;
-type ResizeSegmentsFromBoundariesRedisAction =
+export type ResizeSegmentsFromBoundariesRedisAction =
   ResizeSegmentsFromBoundariesAction & ResizeSegmentsFromBoundariesRedisMeta;
 export function resizeSegmentsFromBoundariesRedis(
   action: ResizeSegmentsFromBoundariesAction,
