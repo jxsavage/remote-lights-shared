@@ -50,7 +50,7 @@ interface SplitSegmentActionArgs {
 export interface SplitSegmentPayload extends SplitSegmentActionArgs {
   newSegmentId: MicroId;
 }
-interface SplitSegmentAction {
+export interface SplitSegmentAction {
   type: typeof SPLIT_SEGMENT;
   payload: SplitSegmentPayload;
 }
@@ -74,7 +74,7 @@ export interface MergeSegmentsPayload {
   microId: MicroId; segmentId: SegmentId;
   direction: Direction;
 }
-interface MergeSegmentsAction {
+export interface MergeSegmentsAction {
   type: typeof MERGE_SEGMENTS;
   payload: MergeSegmentsPayload;
 }
@@ -88,7 +88,7 @@ CreateAction<MergeSegmentsPayload, MergeSegmentsAction> = (
 export interface SetMicroBrightnessPayload {
   microId: MicroId; brightness: number;
 }
-interface SetMicroBrightnessAction {
+export interface SetMicroBrightnessAction {
   type: typeof SET_MICRO_BRIGHTNESS;
   payload: SetMicroBrightnessPayload;
 }
@@ -102,7 +102,7 @@ CreateAction<SetMicroBrightnessPayload, SetMicroBrightnessAction> = (
 export interface SetSegmentEffectPayload {
   segmentId: SegmentId; newEffect: MicroEffect; microId: MicroId;
 }
-interface SetSegmentEffectAction {
+export interface SetSegmentEffectAction {
   type: typeof SET_SEGMENT_EFFECT;
   payload: SetSegmentEffectPayload;
 }
@@ -116,7 +116,7 @@ CreateAction<SetSegmentEffectPayload, SetSegmentEffectAction> = (
 export interface ResizeSegmentsFromBoundariesPayload {
   microId: MicroId; segmentBoundaries: number[];
 }
-interface ResizeSegmentsFromBoundariesAction {
+export interface ResizeSegmentsFromBoundariesAction {
   type: typeof RESIZE_SEGMENTS_FROM_BOUNDARIES;
   payload: ResizeSegmentsFromBoundariesPayload;
 }
