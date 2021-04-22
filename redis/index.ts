@@ -27,7 +27,7 @@ function findUniqueId(arr1: number[], arr2: number[]): number {
   return unique;
 }
 
-interface SplitSegmentRedisPayload {
+export interface SplitSegmentRedisPayload {
   microId: MicroId,
   newSegmentId: SegmentId,
   segmentIds: SegmentId[],
@@ -55,7 +55,7 @@ export function splitSegmentRedis(
   };
 }
 
-interface MergeSegmentsRedisPayload {
+export interface MergeSegmentsRedisPayload {
   microId: MicroId,
   deletedSegmentId: SegmentId,
   segmentIds: SegmentId[],
@@ -87,7 +87,7 @@ export function mergeSegmentsRedis(
     }),
   };
 }
-interface SetSegmentEffectRedisPayload {
+export interface SetSegmentEffectRedisPayload {
   segmentId: SegmentId,
   newEffect: MicroEffect,
 }
@@ -107,7 +107,7 @@ export function setSegmentEffectRedis(
 }
 type SetMicroBrightnessRedisMeta = RedisMeta<SetMicroBrightnessRedisPayload>;
 export type SetMicroBrightnessRedisAction = SetMicroBrightnessAction & SetMicroBrightnessRedisMeta;
-interface SetMicroBrightnessRedisPayload {
+export interface SetMicroBrightnessRedisPayload {
   microId: MicroId,
   brightness: number,
 }
@@ -123,7 +123,7 @@ export function setMicroBrightnessRedis(
     }),
   };
 }
-interface ResizeSegmentsFromBoundariesRedisPayload {
+export interface ResizeSegmentsFromBoundariesRedisPayload {
   microId: MicroId;
   segmentBoundaries: number[];
   offsetAndNumLEDs: { offset: number, numLEDs: number }[];
