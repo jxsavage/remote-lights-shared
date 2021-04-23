@@ -7,8 +7,8 @@ import {
 
 interface RedisMeta<S> {
   meta: {
-    redis: S
-  }
+    redis: S;
+  };
 }
 function generateMeta<T>(payload: T): RedisMeta<T> {
   return {
@@ -28,11 +28,10 @@ function findUniqueId(arr1: number[], arr2: number[]): number {
 }
 
 export interface SplitSegmentRedisPayload {
-  microId: MicroId,
-  newSegmentId: SegmentId,
-  segmentIds: SegmentId[],
-  segmentBoundaries: number[],
-  LEDSegments: LEDSegment[],
+  microId: MicroId;
+  segmentIds: SegmentId[];
+  segmentBoundaries: number[];
+  LEDSegments: LEDSegment[];
 }
 type SplitSegmentRedisMeta = RedisMeta<SplitSegmentRedisPayload>;
 export type SplitSegmentRedisAction = SplitSegmentAction & SplitSegmentRedisMeta;
@@ -40,14 +39,13 @@ export function splitSegmentRedis(
   newEntity: RemoteLightsEntity,
   action: SplitSegmentAction,
 ): SplitSegmentRedisAction {
-  const { microId, newSegmentId } = action.payload;
+  const { microId } = action.payload;
   const { segmentBoundaries, segmentIds } = newEntity.micros.byId[microId];
   const LEDSegments = segmentIds.map((segId) => newEntity.segments.byId[segId]);
   return {
     ...action,
     ...generateMeta<SplitSegmentRedisPayload>({
       microId,
-      newSegmentId,
       segmentIds,
       segmentBoundaries,
       LEDSegments,
@@ -56,11 +54,11 @@ export function splitSegmentRedis(
 }
 
 export interface MergeSegmentsRedisPayload {
-  microId: MicroId,
-  deletedSegmentId: SegmentId,
-  segmentIds: SegmentId[],
-  segmentBoundaries: number[],
-  LEDSegments: LEDSegment[],
+  microId: MicroId;
+  deletedSegmentId: SegmentId;
+  segmentIds: SegmentId[];
+  segmentBoundaries: number[];
+  LEDSegments: LEDSegment[];
 }
 type MergeSegmentsRedisMeta = RedisMeta<MergeSegmentsRedisPayload>;
 export type MergeSegmentsRedisAction = MergeSegmentsAction & MergeSegmentsRedisMeta;
@@ -88,8 +86,8 @@ export function mergeSegmentsRedis(
   };
 }
 export interface SetSegmentEffectRedisPayload {
-  segmentId: SegmentId,
-  newEffect: MicroEffect,
+  segmentId: SegmentId;
+  newEffect: MicroEffect;
 }
 type SetSegmentEffectRedisMeta = RedisMeta<SetSegmentEffectRedisPayload>;
 export type SetSegmentEffectRedisAction = SetSegmentEffectAction & SetSegmentEffectRedisMeta;
@@ -108,8 +106,8 @@ export function setSegmentEffectRedis(
 type SetMicroBrightnessRedisMeta = RedisMeta<SetMicroBrightnessRedisPayload>;
 export type SetMicroBrightnessRedisAction = SetMicroBrightnessAction & SetMicroBrightnessRedisMeta;
 export interface SetMicroBrightnessRedisPayload {
-  microId: MicroId,
-  brightness: number,
+  microId: MicroId;
+  brightness: number;
 }
 export function setMicroBrightnessRedis(
   action: SetMicroBrightnessAction,
@@ -126,7 +124,7 @@ export function setMicroBrightnessRedis(
 export interface ResizeSegmentsFromBoundariesRedisPayload {
   microId: MicroId;
   segmentBoundaries: number[];
-  offsetAndNumLEDs: { offset: number, numLEDs: number }[];
+  offsetAndNumLEDs: { offset: number; numLEDs: number; segmentId: SegmentId }[];
 
 }
 type ResizeSegmentsFromBoundariesRedisMeta =
@@ -141,7 +139,7 @@ export function resizeSegmentsFromBoundariesRedis(
   const { segmentIds } = nextState.micros.byId[microId];
   const offsetAndNumLEDs = segmentIds.map((segmentId) => {
     const { numLEDs, offset } = nextState.segments.byId[segmentId];
-    return { numLEDs, offset };
+    return { numLEDs, offset, segmentId };
   });
   return {
     ...action,
