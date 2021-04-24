@@ -1,15 +1,12 @@
+/* eslint-disable import/no-cycle */
 import {
   createSegment, calculateSegmentBoundaries, segmentsArrayToBySegmentId,
-} from '../utils';
-import {
   SplitSegmentPayload, MergeSegmentsPayload,
   SetSegmentEffectPayload, SetMicroBrightnessPayload,
   ResizeSegmentsFromBoundariesPayload,
-} from '../actions/microcontroller';
-import {
   MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
   LEDSegment, SegmentById, SegmentEntity, MicroEntity,
-} from '../types';
+} from 'Shared/store';
 
 export function mergeSegmentsReducer(
   { segments, micros, segmentGroups }: RemoteLightsEntity,
