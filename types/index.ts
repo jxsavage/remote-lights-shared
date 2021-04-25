@@ -32,7 +32,7 @@ export const MICRO_COMMAND: MicroCommands = {
   SET_SEGMENT_ID: 9,
   WRITE_EEPROM: 10,
 };
-
+export const REVERSE_MICRO_COMMAND = Object.keys(MICRO_COMMAND);
 export enum MicroEffect {
   ColorWaves,
   BlendWave,
