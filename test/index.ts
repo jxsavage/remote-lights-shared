@@ -1,4 +1,6 @@
+import { mergeSegments, setMicroBrightness, setSegmentEffect, splitSegment } from 'Shared/store';
 import {
+  Direction,
   MicroEffect, MicroEntity, MicrosAndSegmentsEntity, RemoteLightsEntity, SegmentEntity,
 } from 'Shared/types';
 
@@ -497,34 +499,74 @@ function getMicrosAndSegments(): MicrosAndSegmentsEntity {
 const setBrightness = {
   before: getMicros,
   after: getMicrosStateAfterBrightnessChange,
+  action: setMicroBrightness({
+    microId: 1111329336,
+    brightness: 21,
+  }),
 };
-const setSegmentEffect = {
+const setSegmentEffectData = {
   before: getSegments,
   after: getSegmentsAfterSetEffect,
+  action: setSegmentEffect({
+    microId: 1111329336,
+    newEffect: MicroEffect.ColorWaves,
+    segmentId: 358174915,
+  }),
 };
 const splitSegmentLeft = {
   before: getMicrosAndSegments,
   after: getMicrosAndSegmentsAfterSplitSegmentLeft,
+  action: splitSegment({
+    microId: 1111329336,
+    segmentId: 358174915,
+    direction: Direction.Left,
+    newEffect: MicroEffect.ColorWaves,
+    forceNewId: 402030797,
+  }),
 };
 const splitSegmentRight = {
   before: getMicrosAndSegments,
   after: getMicrosAndSegmentsAfterSplitSegmentRight,
+  action: splitSegment({
+    direction: Direction.Right,
+    newEffect: MicroEffect.BlendWave,
+    microId: 1111329336,
+    segmentId: 1863146864,
+    forceNewId: 1347786750,
+  }),
 };
 const mergeSegmentsLeft = {
   before: getState,
   after: getMicrosAndSegmentsAfterMergeSegementsLeft,
+  action: mergeSegments({
+    direction: Direction.Left,
+    microId: 1111329336,
+    segmentId: 1863146864,
+  }),
 };
 const mergeSegmentsRight = {
   before: getState,
   after: getMicrosAndSegmentsAfterMergeSegementsRight,
+  action: mergeSegments({
+    direction: Direction.Right,
+    microId: 1111329336,
+    segmentId: 358174915,
+  }),
 };
+
+const rawData = {
+  micros: getMicros,
+  microsAndSegments: getMicrosAndSegments,
+};
+
 const testFixture = {
+  rawData,
   setBrightness,
-  setSegmentEffect,
   splitSegmentLeft,
   splitSegmentRight,
   mergeSegmentsLeft,
   mergeSegmentsRight,
+  setSegmentEffectData,
 };
 
 export default testFixture;
