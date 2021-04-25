@@ -1,11 +1,13 @@
 /* eslint-disable import/no-cycle */
 import {
+  MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
+  LEDSegment, SegmentById, SegmentEntity, MicroEntity,
+} from 'Shared/types';
+import {
   createSegment, calculateSegmentBoundaries, segmentsArrayToBySegmentId,
   SplitSegmentPayload, MergeSegmentsPayload,
   SetSegmentEffectPayload, SetMicroBrightnessPayload,
   ResizeSegmentsFromBoundariesPayload,
-  MicrosAndSegmentsEntity, RemoteLightsEntity, Direction,
-  LEDSegment, SegmentById, SegmentEntity, MicroEntity,
 } from 'Shared/store';
 
 export function mergeSegmentsReducer(

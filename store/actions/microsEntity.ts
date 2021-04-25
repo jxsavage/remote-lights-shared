@@ -1,7 +1,7 @@
 import {
   MicrosAndSegmentsEntity, MicroId,
   RemoteLightsEntity,
-} from '../types';
+} from 'Shared/types';
 import {
   CreateAction, CreateSimpleAction, Action,
 } from './types';

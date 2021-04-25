@@ -1,43 +1,9 @@
-import { CreateAction } from './types';
 import {
-  Direction, MicroEffect, MicroId, SegmentId,
-} from '../types';
+  Direction, MicroActionType, MicroEffect, MicroId, SegmentId,
+} from 'Shared/types';
+import { CreateAction } from './types';
 import { generateId } from '../utils';
 
-export enum MicroActionType {
-  SET_MICRO_ID = 'SET_MICRO_ID',
-  SPLIT_SEGMENT = 'SPLIT_SEGMENT',
-  MERGE_SEGMENTS = 'MERGE_SEGMENTS',
-  SET_SEGMENT_ID = 'SET_SEGMENT_ID',
-  RESET_MICRO_STATE = 'RESET_MICRO_STATE',
-  SET_SEGMENT_EFFECT = 'SET_SEGMENT_EFFECT',
-  SET_MICRO_BRIGHTNESS = 'SET_MICRO_BRIGHTNESS',
-  RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
-  WRITE_EEPROM = 'WRITE_EEPROM',
-}
-export enum GetMicroCommands {
-  GET_STATE = 'GET_STATE',
-}
-export type MicroCommand = number;
-export type MicroCommands = {
-  [values in MicroActionType | GetMicroCommands]: MicroCommand;
-};
-/**
- * Directly maps to enum in microcontroller.
- * Changes here require changes in microcontroller code.
- */
-export const MICRO_COMMAND: MicroCommands = {
-  GET_STATE: 1,
-  RESET_MICRO_STATE: 2,
-  SPLIT_SEGMENT: 3,
-  SET_MICRO_BRIGHTNESS: 4,
-  MERGE_SEGMENTS: 5,
-  SET_SEGMENT_EFFECT: 6,
-  RESIZE_SEGMENTS_FROM_BOUNDARIES: 7,
-  SET_MICRO_ID: 8,
-  SET_SEGMENT_ID: 9,
-  WRITE_EEPROM: 10,
-};
 const {
   MERGE_SEGMENTS, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
@@ -48,6 +14,7 @@ const {
 interface SplitSegmentActionArgs {
   segmentId: SegmentId; direction: Direction;
   newEffect: MicroEffect; microId: MicroId;
+  forceNewId?: SegmentId;
 }
 export interface SplitSegmentPayload extends SplitSegmentActionArgs {
   newSegmentId: MicroId;
@@ -60,7 +27,7 @@ export const splitSegment:
 CreateAction<SplitSegmentActionArgs, SplitSegmentAction> = (
   payload,
 ) => {
-  const newSegmentId = generateId();
+  const newSegmentId = payload.forceNewId ? payload.forceNewId : generateId();
   return {
     type: SPLIT_SEGMENT,
     payload: {

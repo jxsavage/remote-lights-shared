@@ -1,10 +1,10 @@
 import {
+  SegmentGroupEntity, SegmentsAndGroupsEntity, SegmentEntity, MicroEffect,
+} from 'Shared/types';
+import {
   AddSegmentToGroupPayload, RemoveSegmentFromGroupPayload,
   CreateGroupPayload, DeleteGroupPayload, ChangeGroupControlsEffectPayload, SetGroupEffectPayload,
 } from '../actions/segmentGroup';
-import {
-  SegmentGroupEntity, SegmentsAndGroupsEntity, SegmentEntity, MicroEffect,
-} from '../types';
 
 export function setGroupEffectReducer(
   { segments, segmentGroups }: SegmentsAndGroupsEntity,

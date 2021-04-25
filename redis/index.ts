@@ -1,7 +1,9 @@
 import {
   LEDSegment, MicroEffect, MicroId,
-  SegmentId, RemoteLightsEntity, SplitSegmentAction,
-  MergeSegmentsAction, SetSegmentEffectAction,
+  SegmentId, RemoteLightsEntity,
+} from 'Shared/types';
+import {
+  SplitSegmentAction, MergeSegmentsAction, SetSegmentEffectAction,
   SetMicroBrightnessAction, ResizeSegmentsFromBoundariesAction,
 } from 'Shared/store';
 

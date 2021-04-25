@@ -1,10 +1,12 @@
 /* eslint-disable import/no-cycle */
 import {
+  MicroActionType, RemoteLightsEntity, initialState,
+} from 'Shared/types';
+import {
   addSegmentToGroupReducer, AllEntityActions, changeGroupControlsEffectReducer,
-  createGroupReducer, deleteGroupReducer, GroupActionType, initialState,
-  mergeSegmentsReducer, MicroActionType, MicroEntityActionType, RemoteLightsEntity,
-  removeSegmentFromGroupReducer, resizeSegmentsFromBoundariesReducer, setGroupEffectReducer,
-  setMicroBrightnessReducer, setSegmentEffectReducer, splitSegmentReducer,
+  createGroupReducer, deleteGroupReducer, GroupActionType, mergeSegmentsReducer,
+  MicroEntityActionType, removeSegmentFromGroupReducer, resizeSegmentsFromBoundariesReducer,
+  setGroupEffectReducer, setMicroBrightnessReducer, setSegmentEffectReducer, splitSegmentReducer,
 } from 'Shared/store';
 
 const {

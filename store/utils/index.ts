@@ -1,6 +1,7 @@
 import {
-  LEDSegment, SegmentId, MicroId, SegmentById, MicroEffect, MicroStateResponse, MicrosAndSegmentsEntity, MicroState,
-} from '../types';
+  LEDSegment, SegmentId, MicroId, SegmentById,
+  MicroEffect, MicroStateResponse, MicrosAndSegmentsEntity, MicroState,
+} from 'Shared/types';
 
 export function generateId(): number {
   return Math.floor(Math.random() * (2147483647 - 1) + 1);

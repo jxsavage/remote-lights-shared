@@ -1,7 +1,7 @@
-import { CreateAction, CreateSimpleAction, Action } from './types';
 import {
   SegmentGroup, LEDSegment, SegmentGroupId,
-} from '../types';
+} from 'Shared/types';
+import { CreateAction, CreateSimpleAction, Action } from './types';
 import { generateId } from '../utils';
 
 export enum GroupActionType {
