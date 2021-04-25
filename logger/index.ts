@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import chalk from 'chalk';
 
 const chalkColors = new chalk.Instance({ level: 3 });
@@ -18,11 +19,12 @@ const colors = {
   textRed,
   bgRed,
   textYellow,
-  bgYellow
-}
+  bgYellow,
+};
 type Colors = typeof colors;
 
 const log = (color: keyof Colors, message: string): void => {
+  // eslint-disable-next-line no-console
   console.log(colors[color](` ${message} `));
 };
 

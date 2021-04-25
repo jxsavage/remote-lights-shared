@@ -21,7 +21,7 @@ export function createSegment(
 }
 export function calculateSegmentBoundaries(segments: LEDSegment[]): number[] {
   const boundaries: number[] = segments
-    // eslint-disable-next-line no-shadow
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     .reduce((boundaries, segment, index) => {
       const notEnd = !(index === (segments.length - 1));
       if (index === 0) {
@@ -49,11 +49,11 @@ export function segmentsArrayToBySegmentId(segments: LEDSegment[]): SegmentById 
  * @param MicroStateResponse
  * @returns MicrosAndSegmentsEntity representing the microcontrollers state.
  */
-export function convertMicroResponseToMicroEntity([
-  , microId, totalLEDs, brightness, segmentResponseArr
+export function convertMicroResponseToMicroEntity([,
+  microId, totalLEDs, brightness, segmentResponseArr,
 ]: MicroStateResponse): MicrosAndSegmentsEntity {
   const segmentIds: SegmentId[] = [];
-  
+
   const LEDSegments = segmentResponseArr.map((segmentResponse) => {
     const [,,,segmentId] = segmentResponse;
     segmentIds.push(segmentId);
@@ -72,11 +72,11 @@ export function convertMicroResponseToMicroEntity([
       allIds: [microId],
       byId: {
         [microId]: micro,
-      } 
+      },
     },
     segments: {
       allIds: segmentIds,
       byId: segmentsArrayToBySegmentId(LEDSegments),
-    }
-  }
+    },
+  };
 }

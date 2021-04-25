@@ -1,5 +1,5 @@
 import {
-  SegmentGroup, LEDSegment, SegmentGroupId,
+  SegmentGroup, LEDSegment,
 } from 'Shared/types';
 import { CreateAction, CreateSimpleAction, Action } from './types';
 import { generateId } from '../utils';

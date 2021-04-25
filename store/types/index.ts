@@ -1,7 +1,5 @@
 import { SocketDestination, SocketSource } from 'Shared/socket';
 
-
-
 export interface EmittableActionSocketMeta {
   shouldEmit: boolean;
   hasEmitted: boolean;
