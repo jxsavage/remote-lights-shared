@@ -38,6 +38,14 @@ export const MICRO_COMMAND: MicroCommands = {
   SET_SEGMENT_ID: 9,
   WRITE_EEPROM: 10,
 };
+
+interface Reverse {
+  [key: number]: string;
+}
+export const REVERSE_MICRO_COMMAND = Object.entries(MICRO_COMMAND).reduce((array, [key]) => {
+  array.push(key);
+  return array;
+}, [] as string[]);
 const {
   MERGE_SEGMENTS, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
