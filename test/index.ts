@@ -1,11 +1,10 @@
 import log from 'Shared/logger';
 import { mergeSegments, resizeSegmentsFromBoundaries, setMicroBrightness, setSegmentEffect, splitSegment } from 'Shared/store';
 import {
-  Direction,
-  LEDSegment,
-  MicroEffect, MicroEntity, MicrosAndSegmentsEntity, MicroState, RemoteLightsEntity, SegmentEntity,
+  Direction, LEDSegment, MicroEffect, MicroEntity,
+  MicrosAndSegmentsEntity, MicroState, RemoteLightsEntity, SegmentEntity,
+  RedisLEDSegmentHash, RedisMicroHash
 } from 'Shared/types';
-import { RedisLEDSegmentHash, RedisMicroHash } from 'SocketServer/redis';
 
 function getSegmentsAfterSetEffect(): SegmentEntity {
   return {
