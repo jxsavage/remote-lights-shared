@@ -23,7 +23,7 @@ function generateMeta<T>(payload: T): RedisMeta<T> {
 }
 function findUniqueId(arr1: number[], arr2: number[]): number {
   const unique = arr1.reduce((uni, current) => {
-    if (arr2.includes(current)) return current;
+    if (!arr2.includes(current)) return current;
     return uni;
   }, 0);
   return unique;
