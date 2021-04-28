@@ -67,7 +67,7 @@ export function convertMicroResponseToMicroEntity([,
     segmentBoundaries,
     segmentIds,
   };
-  return {
+  const results = {
     micros: {
       allIds: [microId],
       byId: {
@@ -79,4 +79,5 @@ export function convertMicroResponseToMicroEntity([,
       byId: segmentsArrayToBySegmentId(LEDSegments),
     },
   };
+  return results;
 }
