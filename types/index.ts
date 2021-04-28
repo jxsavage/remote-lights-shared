@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 export enum MicroActionType {
   SET_MICRO_ID = 'SET_MICRO_ID',
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
@@ -157,9 +158,9 @@ export const initialState: RemoteLightsEntity = {
   },
 };
 /*
- * 
+ *
  * REDIS TYPES
- * 
+ *
  */
 
 export type RedisSetOrList = string[];
