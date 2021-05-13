@@ -1,39 +1,17 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 export enum MicroActionType {
+  RESET_MICRO = 'RESET_MICRO',
   SET_MICRO_ID = 'SET_MICRO_ID',
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
   MERGE_SEGMENTS = 'MERGE_SEGMENTS',
   SET_SEGMENT_ID = 'SET_SEGMENT_ID',
-  RESET_MICRO_STATE = 'RESET_MICRO_STATE',
   SET_SEGMENT_EFFECT = 'SET_SEGMENT_EFFECT',
   SET_MICRO_BRIGHTNESS = 'SET_MICRO_BRIGHTNESS',
   RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
   WRITE_EEPROM = 'WRITE_EEPROM',
 }
-export enum GetMicroCommands {
-  GET_STATE = 'GET_STATE',
-}
-export type MicroCommand = number;
-export type MicroCommands = {
-  [values in MicroActionType | GetMicroCommands]: MicroCommand;
-};
-/**
- * Directly maps to enum in microcontroller.
- * Changes here require changes in microcontroller code.
- */
-export const MICRO_COMMAND: MicroCommands = {
-  GET_STATE: 1,
-  RESET_MICRO_STATE: 2,
-  SPLIT_SEGMENT: 3,
-  SET_MICRO_BRIGHTNESS: 4,
-  MERGE_SEGMENTS: 5,
-  SET_SEGMENT_EFFECT: 6,
-  RESIZE_SEGMENTS_FROM_BOUNDARIES: 7,
-  SET_MICRO_ID: 8,
-  SET_SEGMENT_ID: 9,
-  WRITE_EEPROM: 10,
-};
-export const REVERSE_MICRO_COMMAND = Object.keys(MICRO_COMMAND);
+
+
 export enum MicroEffect {
   ColorWaves,
   BlendWave,
@@ -72,21 +50,14 @@ export interface MicroState {
   segmentBoundaries: number[];
 }
 /**
- * Light Client Definitions
- */
-type ClientId = string;
-export interface LightClientState {
-  clientId: ClientId;
-  microIds: MicroId[];
-}
-/**
  * Microcontroller Response Definitions
  */
 export type SegmentResponse = [
   Offset, NumLEDs, MicroEffect, SegmentId,
 ];
+type CommandId = number;
 export type MicroStateResponse = [
-  MicroCommand, MicroId, TotalLEDs, Brightness, SegmentResponse[],
+  MicroId, TotalLEDs, Brightness, SegmentResponse[],
 ];
 /**
  * Micro Enitity Definitions

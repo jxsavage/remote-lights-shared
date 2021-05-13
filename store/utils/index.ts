@@ -49,7 +49,7 @@ export function segmentsArrayToBySegmentId(segments: LEDSegment[]): SegmentById 
  * @param MicroStateResponse
  * @returns MicrosAndSegmentsEntity representing the microcontrollers state.
  */
-export function convertMicroResponseToMicroEntity([,
+export function convertMicroResponseToMicroEntity([
   microId, totalLEDs, brightness, segmentResponseArr,
 ]: MicroStateResponse): MicrosAndSegmentsEntity {
   const segmentIds: SegmentId[] = [];

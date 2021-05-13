@@ -25,7 +25,7 @@ type Colors = typeof colors;
 
 const log = (color: keyof Colors, message: string): void => {
   // eslint-disable-next-line no-console
-  console.log(colors[color](` ${message} `));
+  console.log(colors[color](`${message}`));
 };
 
 export default log;
