@@ -1,4 +1,25 @@
-type ClientId = number;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { MicroId } from ".";
+export type ClientId = number;
+type BluetoothAddress = string;
+
+export interface Client {
+  clientId: ClientId;
+  micros: MicroId[];
+  visibleBT: BluetoothAddress[];
+  connectedBT: BluetoothAddress[];
+  
+}
+export enum BTConnectionStatus {
+  PENDING = 'PENDING',
+  CONNECTED = 'CONNECTED',
+  DISCONNECTED = 'DISCONNECTED',
+}
+export interface BluetoothDevice {
+  address: BluetoothAddress;
+  connectedClient: ClientId;
+  connectionStatus: BTConnectionStatus;
+}
 export interface RfcommDetails {
   device: string;
   address: string;
