@@ -1,6 +1,7 @@
 import { MicroActionType } from ".";
 
 export enum MicroCommand {
+  RESET = 'RESET_MICRO',
   GET_STATE = 'GET_STATE',
   LOAD_EEPROM = 'LOAD_EEPROM',
   WRITE_EEPROM = 'WRITE_EEPROM',
