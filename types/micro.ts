@@ -1,4 +1,4 @@
-import { MicroActionType } from ".";
+import { MicroActionType } from '.';
 
 export enum MicroCommand {
   RESET = 'RESET_MICRO',
@@ -40,9 +40,9 @@ export type StaticCommandFn = () => CommandArray;
 
 export enum MicroResponseCode {
   ERROR = 130, WARNING, INFO, DEBUG, PING, PONG, COMMAND_SUCCESS, COMMAND_FAILURE,
-  TEST, CONFIRM_COMMAND
+  TEST, CONFIRM_COMMAND,
 }
 
 export enum MicroResponseHeader {
-  CONFIRM_COMMAND = 1, TEST, SILENT
+  CONFIRM_COMMAND = 1, TEST, SILENT,
 }
