@@ -5,11 +5,12 @@ import { CreateAction, CreateSimpleAction, Action } from './types';
 import { generateId } from '../utils';
 
 export enum GroupActionType {
+  SET_ALIAS = 'SET_ALIAS',
   CREATE_GROUP = 'CREATE_GROUP',
   DELETE_GROUP = 'DELETE_GROUP',
+  SET_GROUP_EFFECT = 'SET_GROUP_EFFECT',
   ADD_SEGMENT_TO_GROUP = 'ADD_SEGMENT_TO_GROUP',
   REMOVE_SEGMENT_FROM_GROUP = 'REMOVE_SEGMENT_FROM_GROUP',
-  SET_GROUP_EFFECT = 'SET_GROUP_EFFECT',
   CHANGE_GROUP_CONTROLS_EFFECT = 'CHANGE_GROUP_CONTROLS_EFFECT',
 }
 

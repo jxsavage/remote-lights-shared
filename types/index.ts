@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-export enum MicroActionType {
+export enum MicroActionType {  
   RESET_MICRO = 'RESET_MICRO',
   SET_MICRO_ID = 'SET_MICRO_ID',
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
   MERGE_SEGMENTS = 'MERGE_SEGMENTS',
   SET_SEGMENT_ID = 'SET_SEGMENT_ID',
+  SET_MICRO_ALIAS = 'SET_MICRO_ALIAS',
+  SET_SEGMENT_ALIAS = 'SET_SEGMENT_ALIAS',
   SET_SEGMENT_EFFECT = 'SET_SEGMENT_EFFECT',
   SET_MICRO_BRIGHTNESS = 'SET_MICRO_BRIGHTNESS',
   RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
@@ -29,12 +30,13 @@ export type Offset = number;
 export type NumLEDs = number;
 export type SegmentId = number;
 export interface LEDSegment {
+  alias: string;
   offset: Offset;
+  microId: MicroId;
   numLEDs: NumLEDs;
   effect: MicroEffect;
-  effectControlledBy: SegmentGroupId;
   segmentId: SegmentId;
-  microId: MicroId;
+  effectControlledBy: SegmentGroupId;
 }
 /**
  * Microcontroller Definitions
@@ -43,6 +45,7 @@ export type MicroId = number;
 export type TotalLEDs = number;
 export type Brightness = number;
 export interface MicroState {
+  alias: string;
   microId: MicroId;
   totalLEDs: TotalLEDs;
   brightness: Brightness;
@@ -55,7 +58,6 @@ export interface MicroState {
 export type SegmentResponse = [
   Offset, NumLEDs, MicroEffect, SegmentId,
 ];
-type CommandId = number;
 export type MicroStateResponse = [
   MicroId, TotalLEDs, Brightness, SegmentResponse[],
 ];
@@ -86,10 +88,11 @@ export type SegmentEntity = {
  */
 export type SegmentGroupId = number;
 export interface SegmentGroup {
+  alias: string;
   segmentIds: SegmentId[];
+  controlsEffect: boolean;
   segmentGroupId: SegmentGroupId;
   groupEffect: MicroEffect | null;
-  controlsEffect: boolean;
 }
 export type SegmentGroupIds = SegmentGroupId[];
 export type SegmentGroupById = {
@@ -142,6 +145,7 @@ export type RedisAllMicroIdsSet = RedisSetOrList;
 export type RedisMicroLEDSegmentsList = RedisSetOrList;
 export type RedisMicroLEDSegmentsBoundaries = RedisSetOrList;
 export enum RedisMicroHashField {
+  alias = 'alias',
   microId = 'microId',
   totalLEDs = 'totalLEDs',
   brightness = 'brightness',
@@ -150,16 +154,17 @@ export type RedisMicroHash = {
   [key in keyof typeof RedisMicroHashField]: string | number;
 };
 const {
-  microId, totalLEDs, brightness,
+  microId, totalLEDs, brightness, alias
 } = RedisMicroHashField;
 export const AllRedisMicroHashFields = [
-  microId, totalLEDs, brightness,
+  microId, totalLEDs, brightness, alias
 ];
 /*
 * Segment Types
 */
 export type RedisAllLEDSegmentIdsSet = RedisSetOrList;
 export enum RedisLEDSegmentHashField {
+  alias = 'alias',
   effect = 'effect',
   offset = 'offset',
   microId = 'microId',
@@ -174,7 +179,7 @@ const {
   effect, offset, numLEDs, segmentId, effectControlledBy,
 } = RedisLEDSegmentHashField;
 export const AllRedisLEDHashFields = [
-  effect, offset, microId, numLEDs, segmentId, effectControlledBy,
+  effect, offset, microId, numLEDs, segmentId, effectControlledBy, RedisLEDSegmentHashField.alias
 ];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RedisExecResults = Promise<[Error | null, any][]>;

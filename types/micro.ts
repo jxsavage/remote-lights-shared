@@ -28,6 +28,8 @@ export const MICRO_COMMAND: MicroCommands = {
   WRITE_EEPROM: 10,
   LOAD_EEPROM: 11,
   RESTORE_DEFAULT: 12,
+  SET_MICRO_ALIAS: 13,
+  SET_SEGMENT_ALIAS: 14,
 };
 export const REVERSE_MICRO_COMMAND = Object.keys(MICRO_COMMAND);
 

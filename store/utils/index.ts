@@ -7,8 +7,8 @@ export function generateId(): number {
   return Math.floor(Math.random() * (2147483647 - 1) + 1);
 }
 export function createSegment(
-  microId: MicroId, offset: number, numLEDs: number, effect: MicroEffect, segmentId: SegmentId,
-  effectControlledBy = 0,
+  microId: MicroId, offset: number, numLEDs: number, effect: MicroEffect,
+  segmentId: SegmentId, effectControlledBy = 0, alias?: string
 ): LEDSegment {
   return {
     offset,
@@ -17,6 +17,7 @@ export function createSegment(
     microId,
     segmentId,
     effectControlledBy,
+    alias: alias === undefined ? String(microId) : alias,
   };
 }
 export function calculateSegmentBoundaries(segments: LEDSegment[]): number[] {
@@ -60,12 +61,14 @@ export function convertMicroResponseToMicroEntity([
     return createSegment(microId, ...segmentResponse);
   });
   const segmentBoundaries = calculateSegmentBoundaries(LEDSegments);
+  const alias = String(microId);
   const micro: MicroState = {
+    alias,
     microId,
     totalLEDs,
     brightness,
-    segmentBoundaries,
     segmentIds,
+    segmentBoundaries,
   };
   const results = {
     micros: {

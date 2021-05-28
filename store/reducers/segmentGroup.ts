@@ -112,10 +112,12 @@ export function createGroupReducer(
   { byId, allIds }: SegmentGroupEntity,
   { newGroupId }: CreateGroupPayload,
 ): SegmentGroupEntity {
+  const alias = String(newGroupId);
   return {
     byId: {
       ...byId,
       [newGroupId]: {
+        alias,
         segmentIds: [],
         groupEffect: null,
         controlsEffect: false,
