@@ -16,6 +16,7 @@ function getSegmentsAfterSetEffect(): SegmentEntity {
     ],
     byId: {
       358174915: {
+        alias: 'test-micro-1',
         offset: 0,
         effect: MicroEffect.ColorWaves,
         numLEDs: 144,
@@ -24,6 +25,7 @@ function getSegmentsAfterSetEffect(): SegmentEntity {
         effectControlledBy: 0,
       },
       1863146864: {
+        alias: 'test-micro-2',
         offset: 144,
         effect: MicroEffect.ColorWaves,
         numLEDs: 144,
@@ -41,6 +43,7 @@ function getMicrosStateAfterBrightnessChange(): MicroEntity {
     ],
     byId: {
       1111329336: {
+        alias: 'test-micro-1',
         microId: 1111329336,
         totalLEDs: 288,
         brightness: 21,
@@ -63,6 +66,7 @@ function getState(): RemoteLightsEntity {
       ],
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -112,6 +116,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftEdge(): MicrosAndSegmentsEntit
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -133,6 +138,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftEdge(): MicrosAndSegmentsEntit
     segments: {
       byId: {
         155811981: {
+          alias: 'test-segment-1',
           offset: 0,
           effect: 0,
           numLEDs: 72,
@@ -141,6 +147,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftEdge(): MicrosAndSegmentsEntit
           effectControlledBy: 0,
         },
         358174915: {
+          alias: 'test-segment-2',
           offset: 72,
           effect: 1,
           numLEDs: 72,
@@ -149,6 +156,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftEdge(): MicrosAndSegmentsEntit
           effectControlledBy: 0,
         },
         1863146864: {
+          alias: 'test-segment-3',
           segmentId: 1863146864,
           effect: 0,
           offset: 144,
@@ -170,6 +178,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightEdge(): MicrosAndSegmentsEnti
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -191,6 +200,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightEdge(): MicrosAndSegmentsEnti
     segments: {
       byId: {
         358174915: {
+          alias: 'test-segment-1',
           segmentId: 358174915,
           effect: 1,
           offset: 0,
@@ -199,6 +209,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightEdge(): MicrosAndSegmentsEnti
           effectControlledBy: 0,
         },
         1851683174: {
+          alias: 'test-segment-2',
           offset: 216,
           effect: 0,
           numLEDs: 72,
@@ -207,6 +218,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightEdge(): MicrosAndSegmentsEnti
           effectControlledBy: 0,
         },
         1863146864: {
+          alias: 'test-segment-3',
           offset: 144,
           effect: 0,
           numLEDs: 72,
@@ -228,6 +240,7 @@ function getMicrosAndSegmentsAfterMergeSegmentsRight(): RemoteLightsEntity {
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -249,6 +262,7 @@ function getMicrosAndSegmentsAfterMergeSegmentsRight(): RemoteLightsEntity {
       ],
       byId: {
         358174915: {
+          alias: 'test-segment-3',
           offset: 0,
           effect: 1,
           numLEDs: 288,
@@ -269,6 +283,7 @@ function getMicrosAndSegmentsAfterMergeSegmentsLeft(): RemoteLightsEntity {
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -290,6 +305,7 @@ function getMicrosAndSegmentsAfterMergeSegmentsLeft(): RemoteLightsEntity {
       ],
       byId: {
         1863146864: {
+          alias: 'test-segment-3',
           offset: 0,
           effect: 0,
           numLEDs: 288,
@@ -310,6 +326,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightInterior(): MicrosAndSegments
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -331,6 +348,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightInterior(): MicrosAndSegments
     segments: {
       byId: {
         344539015: {
+          alias: 'test-segment-2',
           offset: 72,
           effect: 0,
           numLEDs: 72,
@@ -339,6 +357,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightInterior(): MicrosAndSegments
           effectControlledBy: 0,
         },
         358174915: {
+          alias: 'test-segment-1',
           offset: 0,
           effect: 1,
           numLEDs: 72,
@@ -347,6 +366,7 @@ function getMicrosAndSegmentsAfterSplitSegmentRightInterior(): MicrosAndSegments
           effectControlledBy: 0,
         },
         1863146864: {
+          alias: 'test-segment-3',
           segmentId: 1863146864,
           effect: 0,
           offset: 144,
@@ -368,6 +388,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftInterior(): MicrosAndSegmentsE
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -389,6 +410,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftInterior(): MicrosAndSegmentsE
     segments: {
       byId: {
         114400036: {
+          alias: 'test-segment-2',
           offset: 144,
           effect: 0,
           numLEDs: 72,
@@ -397,6 +419,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftInterior(): MicrosAndSegmentsE
           effectControlledBy: 0,
         },
         358174915: {
+          alias: 'test-segment-1',
           segmentId: 358174915,
           effect: 1,
           offset: 0,
@@ -405,6 +428,7 @@ function getMicrosAndSegmentsAfterSplitSegmentLeftInterior(): MicrosAndSegmentsE
           effectControlledBy: 0,
         },
         1863146864: {
+          alias: 'test-segment-3',
           offset: 216,
           effect: 0,
           numLEDs: 72,
@@ -426,6 +450,7 @@ function microsAndSegmentsAfterResizeSegmentsFromBoundaries(): MicrosAndSegments
     micros: {
       byId: {
         1111329336: {
+          alias: 'test-micro-1',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
@@ -445,6 +470,7 @@ function microsAndSegmentsAfterResizeSegmentsFromBoundaries(): MicrosAndSegments
     segments: {
       byId: {
         358174915: {
+          alias: 'test-segment-1',
           offset: 0,
           effect: 1,
           numLEDs: 169,
@@ -453,6 +479,7 @@ function microsAndSegmentsAfterResizeSegmentsFromBoundaries(): MicrosAndSegments
           effectControlledBy: 0,
         },
         1863146864: {
+          alias: 'test-segment-2',
           offset: 169,
           effect: 0,
           numLEDs: 119,
@@ -470,6 +497,7 @@ function microsAndSegmentsAfterResizeSegmentsFromBoundaries(): MicrosAndSegments
 }
 function getSegment(): LEDSegment {
   return {
+    alias: 'segment-1',
     effect: 0,
     offset: 5,
     microId: 20,
@@ -480,6 +508,7 @@ function getSegment(): LEDSegment {
 }
 function getSegmentHash(): RedisLEDSegmentHash {
   return {
+    alias: 'segment-1',
     effect: '0',
     offset: '5',
     microId: '20',
@@ -490,6 +519,7 @@ function getSegmentHash(): RedisLEDSegmentHash {
 }
 function getMicroHash(): RedisMicroHash {
   return {
+    alias: 'test-micro-1',
     microId: '1',
     totalLEDs: '10',
     brightness: '20',
@@ -497,6 +527,7 @@ function getMicroHash(): RedisMicroHash {
 }
 function getMicro(): MicroState {
   return {
+    alias: 'test-micro-1',
     microId: 1,
     totalLEDs: 10,
     brightness: 20,
