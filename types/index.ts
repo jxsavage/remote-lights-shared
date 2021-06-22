@@ -1,4 +1,4 @@
-export enum MicroActionType {  
+export enum MicroActionType {
   RESET_MICRO = 'RESET_MICRO',
   SET_MICRO_ID = 'SET_MICRO_ID',
   SPLIT_SEGMENT = 'SPLIT_SEGMENT',
@@ -11,7 +11,6 @@ export enum MicroActionType {
   RESIZE_SEGMENTS_FROM_BOUNDARIES = 'RESIZE_SEGMENTS_FROM_BOUNDARIES',
   WRITE_EEPROM = 'WRITE_EEPROM',
 }
-
 
 export enum MicroEffect {
   ColorWaves,
@@ -151,7 +150,7 @@ export enum RedisMicroHashField {
   brightness = 'brightness',
 }
 export type RedisMicroHash = {
-  [key in keyof typeof RedisMicroHashField]: string | number;
+  [key in keyof typeof RedisMicroHashField]: string;
 };
 const {
   microId, totalLEDs, brightness, alias
@@ -173,7 +172,7 @@ export enum RedisLEDSegmentHashField {
   effectControlledBy = 'effectControlledBy',
 }
 export type RedisLEDSegmentHash = {
-  [key in keyof typeof RedisLEDSegmentHashField]: string | number;
+  [key in keyof typeof RedisLEDSegmentHashField]: string;
 };
 const {
   effect, offset, numLEDs, segmentId, effectControlledBy,
