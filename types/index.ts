@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 export enum MicroActionType {
   RESET_MICRO = 'RESET_MICRO',
   SET_MICRO_ID = 'SET_MICRO_ID',
@@ -153,10 +154,10 @@ export type RedisMicroHash = {
   [key in keyof typeof RedisMicroHashField]: string;
 };
 const {
-  microId, totalLEDs, brightness, alias
+  microId, totalLEDs, brightness, alias,
 } = RedisMicroHashField;
 export const AllRedisMicroHashFields = [
-  microId, totalLEDs, brightness, alias
+  microId, totalLEDs, brightness, alias,
 ];
 /*
 * Segment Types
@@ -178,7 +179,7 @@ const {
   effect, offset, numLEDs, segmentId, effectControlledBy,
 } = RedisLEDSegmentHashField;
 export const AllRedisLEDHashFields = [
-  effect, offset, microId, numLEDs, segmentId, effectControlledBy, RedisLEDSegmentHashField.alias
+  effect, offset, microId, numLEDs, segmentId, effectControlledBy, RedisLEDSegmentHashField.alias,
 ];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RedisExecResults = Promise<[Error | null, any][]>;

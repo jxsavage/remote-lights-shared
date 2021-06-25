@@ -8,7 +8,7 @@ export function generateId(): number {
 }
 export function createSegment(
   microId: MicroId, offset: number, numLEDs: number, effect: MicroEffect,
-  segmentId: SegmentId, effectControlledBy = 0, alias?: string
+  segmentId: SegmentId, effectControlledBy = 0, alias?: string,
 ): LEDSegment {
   return {
     offset,
