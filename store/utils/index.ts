@@ -17,7 +17,7 @@ export function createSegment(
     microId,
     segmentId,
     effectControlledBy,
-    alias: alias === undefined ? String(microId) : alias,
+    alias: alias === undefined ? String(segmentId) : alias,
   };
 }
 export function calculateSegmentBoundaries(segments: LEDSegment[]): number[] {

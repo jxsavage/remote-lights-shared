@@ -242,7 +242,7 @@ function getMicrosAndSegmentsAfterMergeSegmentsRight(): RemoteLightsEntity {
     micros: {
       byId: {
         1111329336: {
-          alias: 't1111329336',
+          alias: '1111329336',
           microId: 1111329336,
           totalLEDs: 288,
           brightness: 20,
