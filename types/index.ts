@@ -16,7 +16,9 @@ export enum MicroActionType {
 export enum MicroEffect {
   ColorWaves,
   BlendWave,
-  BeatWave
+  BeatWave,
+  Blur,
+  Confetti
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const POSSIBLE_EFFECTS_STRINGS = Object.values(MicroEffect).filter((k) => typeof MicroEffect[k as any] === 'number');
