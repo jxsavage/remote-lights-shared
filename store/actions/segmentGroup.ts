@@ -3,11 +3,12 @@ import {
 } from 'Shared/types';
 import { CreateAction, CreateSimpleAction, Action } from './types';
 import { generateId } from '../utils';
+import { SetSegmentAliasAction } from './microcontroller';
 
 export enum GroupActionType {
-  SET_ALIAS = 'SET_ALIAS',
   CREATE_GROUP = 'CREATE_GROUP',
   DELETE_GROUP = 'DELETE_GROUP',
+  SET_GROUP_ALIAS = 'SET_GROUP_ALIAS',
   SET_GROUP_EFFECT = 'SET_GROUP_EFFECT',
   ADD_SEGMENT_TO_GROUP = 'ADD_SEGMENT_TO_GROUP',
   REMOVE_SEGMENT_FROM_GROUP = 'REMOVE_SEGMENT_FROM_GROUP',
@@ -16,9 +17,24 @@ export enum GroupActionType {
 
 const {
   CREATE_GROUP, DELETE_GROUP, ADD_SEGMENT_TO_GROUP, REMOVE_SEGMENT_FROM_GROUP,
-  CHANGE_GROUP_CONTROLS_EFFECT, SET_GROUP_EFFECT,
+  CHANGE_GROUP_CONTROLS_EFFECT, SET_GROUP_EFFECT, SET_GROUP_ALIAS,
 } = GroupActionType;
 
+/**
+ * Set Group Alias
+ */
+export interface SetGroupAliasPayload {
+  groupId: number;
+  newGroupAlias: string;
+}
+export interface SetGroupAliasAction {
+  type: typeof SET_GROUP_ALIAS;
+  payload: SetGroupAliasPayload
+}
+export const setGroupAlias:
+CreateAction<SetGroupAliasPayload, SetGroupAliasAction> = (
+  payload,
+) => ({ type: SET_GROUP_ALIAS, payload });
 /**
  * Set Group Effect
  */
@@ -130,7 +146,8 @@ CreateAction<RemoveSegmentFromGroupPayload, RemovesegmentfromGroupAction> = (pay
 export type SegmentGroupActions =
 CreateGroupAction |
 DeleteGroupAction |
+SetGroupAliasAction |
+SetGroupEffectAction |
 AddSegmentToGroupAction |
 RemovesegmentfromGroupAction |
-SetGroupEffectAction |
 ChangeGroupControlsEffectAction;

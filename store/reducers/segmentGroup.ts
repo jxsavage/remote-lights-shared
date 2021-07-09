@@ -3,9 +3,28 @@ import {
 } from 'Shared/types';
 import {
   AddSegmentToGroupPayload, RemoveSegmentFromGroupPayload,
-  CreateGroupPayload, DeleteGroupPayload, ChangeGroupControlsEffectPayload, SetGroupEffectPayload,
+  CreateGroupPayload, DeleteGroupPayload, ChangeGroupControlsEffectPayload,
+  SetGroupEffectPayload, SetGroupAliasPayload,
 } from '../actions/segmentGroup';
 
+export function setGroupAliasReducer(
+  { segments, segmentGroups }: SegmentsAndGroupsEntity,
+  { groupId, newGroupAlias }: SetGroupAliasPayload,
+): SegmentsAndGroupsEntity {
+  const segmentGroup = {
+    ...segmentGroups.byId[groupId],
+    alias: newGroupAlias,
+  };
+  return {
+    segmentGroups: {
+      ...segmentGroups,
+      byId: {
+        [groupId]: segmentGroup,
+      },
+    },
+    segments,
+  };
+}
 export function setGroupEffectReducer(
   { segments, segmentGroups }: SegmentsAndGroupsEntity,
   { groupId, newEffect }: SetGroupEffectPayload,

@@ -7,7 +7,38 @@ import { generateId } from '../utils';
 const {
   MERGE_SEGMENTS, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
+  SET_MICRO_ALIAS, SET_SEGMENT_ALIAS,
 } = MicroActionType;
+/**
+ * Set Micro Alias
+ */
+export interface SetMicroAliasPayload {
+  microId: MicroId;
+  newMicroAlias: string;
+}
+export interface SetMicroAliasAction {
+  type: typeof SET_MICRO_ALIAS;
+  payload: SetMicroAliasPayload
+}
+export const setMicroAlias:
+CreateAction<SetMicroAliasPayload, SetMicroAliasAction> = (
+  payload,
+) => ({ type: SET_MICRO_ALIAS, payload });
+/**
+ * Set Segment Alias
+ */
+export interface SetSegmentAliasPayload {
+  segmentId: SegmentId;
+  newSegmentAlias: string;
+}
+export interface SetSegmentAliasAction {
+  type: typeof SET_SEGMENT_ALIAS;
+  payload: SetSegmentAliasPayload
+}
+export const setSegmentAlias:
+CreateAction<SetSegmentAliasPayload, SetSegmentAliasAction> = (
+  payload,
+) => ({ type: SET_SEGMENT_ALIAS, payload });
 /**
  * Split Segment
  */
@@ -104,6 +135,8 @@ export interface MicroActionsInterface {
 export type MicroActions =
 SplitSegmentAction |
 MergeSegmentsAction |
+SetMicroAliasAction |
+SetSegmentAliasAction |
 SetSegmentEffectAction |
 SetMicroBrightnessAction |
 ResizeSegmentsFromBoundariesAction;

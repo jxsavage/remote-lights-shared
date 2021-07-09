@@ -1,6 +1,6 @@
 import {
   mergeSegments, resizeSegmentsFromBoundaries,
-  setMicroBrightness, setSegmentEffect, splitSegment,
+  setMicroBrightness, setSegmentAlias, setSegmentEffect, splitSegment,
 } from 'Shared/store';
 import {
   Direction, LEDSegment, MicroEffect, MicroEntity,
@@ -634,6 +634,16 @@ const resizeMicroSegmentsFromBoundaries = {
     segmentBoundaries: [169],
   }),
 };
+const setSegmentAliasD = {
+  before: getMicrosAndSegments,
+  after: '',
+  action: 'setSegmentAlias()',
+};
+const setMicroAliasD = {
+  before: getMicrosAndSegments,
+  after: '',
+  action: 'setSegmentAlias()',
+};
 const rawData = {
   micros: getMicros,
   microsAndSegments: getMicrosAndSegments,
@@ -666,6 +676,8 @@ const testFixture = {
       interior: splitSegmentRightInterior,
     },
   },
+  setSegmentAlias: '',
+  setMicroAlias: '',
 };
 
 export default testFixture;

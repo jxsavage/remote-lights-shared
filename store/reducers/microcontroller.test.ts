@@ -2,9 +2,8 @@
 import testData from 'Shared/test';
 import {
   mergeSegmentsReducer, resizeSegmentsFromBoundariesReducer, setMicroBrightnessReducer,
-  setSegmentEffectReducer, splitSegmentReducer,
+  setSegmentEffectReducer, splitSegmentReducer, setMicroAliasReducer, setSegmentAliasReducer,
 } from './microcontroller';
-
 
 describe('the functionality of a microcontroller reducer', () => {
   test('setting a microcontrollers brightness.', () => {
@@ -39,15 +38,17 @@ describe('the functionality of a microcontroller reducer', () => {
   });
   test('merging a segment with the one on the left.', () => {
     const { before, after, action } = testData.mergeSegments.left;
-  
     expect(
       mergeSegmentsReducer(before(), action.payload),
     ).toEqual(after());
   });
   test('resizing a micros segments based on boundaries provided', () => {
-    const {before, after, action} = testData.resizeSegmentsFromBoundaries;
+    const { before, after, action } = testData.resizeSegmentsFromBoundaries;
     expect(
-      resizeSegmentsFromBoundariesReducer(before(), action.payload)
+      resizeSegmentsFromBoundariesReducer(before(), action.payload),
     ).toEqual(after());
+  });
+  test('setting a micros alias', () => {
+
   });
 });

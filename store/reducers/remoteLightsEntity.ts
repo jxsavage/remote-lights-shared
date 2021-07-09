@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable import/no-cycle */
 import {
   MicroActionType, RemoteLightsEntity, initialState,
@@ -7,18 +8,20 @@ import {
   createGroupReducer, deleteGroupReducer, GroupActionType, mergeSegmentsReducer,
   MicroEntityActionType, removeSegmentFromGroupReducer, resizeSegmentsFromBoundariesReducer,
   setGroupEffectReducer, setMicroBrightnessReducer, setSegmentEffectReducer, splitSegmentReducer,
+  setGroupAliasReducer, setMicroAliasReducer, setSegmentAliasReducer,
 } from 'Shared/store';
 
 const {
   MERGE_SEGMENTS, RESIZE_SEGMENTS_FROM_BOUNDARIES,
   SET_MICRO_BRIGHTNESS, SET_SEGMENT_EFFECT, SPLIT_SEGMENT,
+  SET_MICRO_ALIAS, SET_SEGMENT_ALIAS,
 } = MicroActionType;
 const {
   ADD_MICROS, REMOVE_MICROS,
   RESET_ALL_MICROS_STATE, INIT_ENTITY_STATE,
 } = MicroEntityActionType;
 const {
-  CREATE_GROUP, DELETE_GROUP,
+  CREATE_GROUP, DELETE_GROUP, SET_GROUP_ALIAS,
   ADD_SEGMENT_TO_GROUP, REMOVE_SEGMENT_FROM_GROUP,
   CHANGE_GROUP_CONTROLS_EFFECT, SET_GROUP_EFFECT,
 } = GroupActionType;
@@ -148,6 +151,16 @@ export function remoteLightsEntityReducer(
         },
       };
     }
+    case SET_GROUP_ALIAS:
+      const { segments, segmentGroups } = state;
+      return {
+        ...state,
+        ...setGroupAliasReducer({ segments, segmentGroups }, action.payload),
+      };
+    case SET_MICRO_ALIAS:
+      return setMicroAliasReducer(state, action.payload);
+    case SET_SEGMENT_ALIAS:
+      return setSegmentAliasReducer(state, action.payload);
     case REMOVE_MICROS:
       return state;
     case RESET_ALL_MICROS_STATE:

@@ -9,7 +9,46 @@ import {
   SetSegmentEffectPayload, SetMicroBrightnessPayload,
   ResizeSegmentsFromBoundariesPayload,
 } from 'Shared/store';
+import { SetMicroAliasPayload, SetSegmentAliasPayload } from '../actions';
 
+export function setMicroAliasReducer(
+  { segmentGroups, micros, segments }: RemoteLightsEntity,
+  { microId, newMicroAlias }: SetMicroAliasPayload,
+): RemoteLightsEntity {
+  const micro = {
+    ...micros.byId[microId],
+    alias: newMicroAlias,
+  };
+  return {
+    micros: {
+      ...micros,
+      byId: {
+        [microId]: micro,
+      },
+    },
+    segments,
+    segmentGroups,
+  };
+}
+export function setSegmentAliasReducer(
+  { segmentGroups, micros, segments }: RemoteLightsEntity,
+  { segmentId, newSegmentAlias }: SetSegmentAliasPayload,
+): RemoteLightsEntity {
+  const segment = {
+    ...segments.byId[segmentId],
+    alias: newSegmentAlias,
+  };
+  return {
+    segments: {
+      ...segments,
+      byId: {
+        [segmentId]: segment,
+      },
+    },
+    segmentGroups,
+    micros,
+  };
+}
 export function mergeSegmentsReducer(
   { segments, micros, segmentGroups }: RemoteLightsEntity,
   {
